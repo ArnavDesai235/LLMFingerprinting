@@ -1,0 +1,5 @@
+stop                           "<|system|>"
+stop                           "<|user|>"
+stop                           "<|end|>"
+stop                           "<|assistant|>"
+ollama version is 0.32.14

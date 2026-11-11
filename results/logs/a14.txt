@@ -1,0 +1,72 @@
+reference models 22 | distills {'deepseek-r1_1.5b': 3000, 'deepseek-r1_7b': 3000, 'deepseek-r1_8b': 3000, 'deepseek-r1_14b': 3000}
+27 models; reasoning: ['deepseek-r1_1.5b', 'deepseek-r1_14b', 'deepseek-r1_7b', 'deepseek-r1_8b', 'qwen3_14b', 'qwen3_8b']; partial: ['qwen3_14b'] ([2631] rows)
+
+== A: base lineage + both-reasoning ==
+  excess   R2 0.885  same_base +0.016 (p 0.016)  both_reason +0.089 (p 0.000)
+  share_p  R2 0.829  same_base +0.025 (p 0.002)  both_reason +0.042 (p 0.025)
+  co       R2 0.846  same_base +0.009 (p 0.108)  both_reason +0.069 (p 0.000)
+
+== B: developer family + both-reasoning ==
+  excess   R2 0.885  same_dev +0.016 (p 0.015)  both_reason +0.092 (p 0.000)
+  share_p  R2 0.829  same_dev +0.029 (p 0.000)  both_reason +0.045 (p 0.019)
+  co       R2 0.847  same_dev +0.013 (p 0.016)  both_reason +0.069 (p 0.000)
+
+== C: base lineage only ==
+  excess   R2 0.865  same_base +0.029 (p 0.001)
+  share_p  R2 0.824  same_base +0.031 (p 0.000)
+  co       R2 0.822  same_base +0.019 (p 0.003)
+
+== accuracy-controlled excess residual by pair type ==
+                                          mean  count    std
+grp                                                         
+reasoning-nonreasoning                   0.009    103  0.038
+reasoning-reasoning                      0.093     15  0.039
+same base lineage (non-reasoning pairs)  0.010     50  0.036
+unrelated                               -0.015    183  0.042
+
+== reasoning-reasoning pairs ==
+               a               b    n  accA  accB  excess   res
+deepseek-r1_1.5b deepseek-r1_14b 3000 0.312 0.803   0.146 0.056
+deepseek-r1_1.5b  deepseek-r1_7b 3000 0.312 0.529   0.181 0.111
+deepseek-r1_1.5b  deepseek-r1_8b 3000 0.312 0.753   0.103 0.017
+deepseek-r1_1.5b       qwen3_14b 2631 0.314 0.845   0.143 0.049
+deepseek-r1_1.5b        qwen3_8b 3000 0.312 0.816   0.114 0.024
+ deepseek-r1_14b  deepseek-r1_7b 3000 0.803 0.529   0.342 0.128
+ deepseek-r1_14b  deepseek-r1_8b 3000 0.803 0.753   0.434 0.090
+ deepseek-r1_14b       qwen3_14b 2631 0.792 0.845   0.468 0.099
+ deepseek-r1_14b        qwen3_8b 3000 0.803 0.816   0.476 0.103
+  deepseek-r1_7b  deepseek-r1_8b 3000 0.529 0.753   0.339 0.128
+  deepseek-r1_7b       qwen3_14b 2631 0.526 0.845   0.359 0.143
+  deepseek-r1_7b        qwen3_8b 3000 0.529 0.816   0.349 0.134
+  deepseek-r1_8b       qwen3_14b 2631 0.743 0.845   0.435 0.094
+  deepseek-r1_8b        qwen3_8b 3000 0.753 0.816   0.456 0.112
+       qwen3_14b        qwen3_8b 2631 0.845 0.806   0.475 0.099
+
+== identification per model, 26 models, k=10 random probes (reference runs 0-4, probes 5-9) ==
+            model  acc_id    top_confusion  conf_share  conf_to_reasoning
+   deepseek-r1_8b   0.305         qwen3_8b       0.116              0.207
+mistral-small_22b   0.367       gemma3_12b       0.095              0.101
+  deepseek-r1_14b   0.384       gemma3_12b       0.100              0.087
+ deepseek-r1_1.5b   0.384   deepseek-r1_7b       0.085              0.125
+         phi3_14b   0.394       gemma3_27b       0.090              0.105
+   deepseek-r1_7b   0.441       mistral_7b       0.041              0.113
+         phi4_14b   0.489       gemma3_27b       0.115              0.062
+ mistral-nemo_12b   0.507       gemma3_27b       0.040              0.066
+      llama3.1_8b   0.545 mistral-nemo_12b       0.040              0.070
+         qwen3_8b   0.550       gemma3_27b       0.081              0.055
+   phi4-mini_3.8b   0.605       gemma3_12b       0.035              0.050
+      llama3.2_3b   0.606      llama3.1_8b       0.045              0.075
+       falcon3_7b   0.618      falcon3_10b       0.055              0.076
+      qwen2.5_14b   0.683       gemma3_27b       0.107              0.017
+      falcon3_10b   0.775       gemma3_27b       0.037              0.026
+       gemma3_27b   0.800       gemma3_12b       0.117              0.011
+       qwen2.5_7b   0.836       gemma3_27b       0.040              0.019
+       falcon3_1b   0.895       falcon3_3b       0.025              0.016
+       gemma3_12b   0.905      falcon3_10b       0.040              0.007
+      llama3.2_1b   0.919      llama3.2_3b       0.011              0.019
+       falcon3_3b   0.924       falcon3_7b       0.008              0.008
+       mistral_7b   0.931       qwen2.5_7b       0.011              0.014
+     qwen2.5_1.5b   0.933      qwen2.5_14b       0.008              0.007
+       qwen2.5_3b   0.941       gemma3_12b       0.010              0.007
+        gemma3_4b   0.984       gemma3_27b       0.004              0.004
+        gemma3_1b   0.999     qwen2.5_1.5b       0.001              0.000

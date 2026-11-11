@@ -1,0 +1,4 @@
+stop                           "[INST]"
+stop                           "[/INST]"
+stop                           "</s>"
+ollama version is 0.32.14

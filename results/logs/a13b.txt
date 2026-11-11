@@ -1,0 +1,73 @@
+reference models 22 | distills {'deepseek-r1_1.5b': 3000, 'deepseek-r1_7b': 3000, 'deepseek-r1_8b': 3000, 'deepseek-r1_14b': 3000}
+
+== Each distill vs reference models: residual after accuracy controls (fit on that distill's 23 pairs) ==
+
+-- deepseek-r1_1.5b (n rows 3000, acc 0.312; base family qwen, nearest base qwen2.5_1.5b)
+         excess_res  share_p_res  co_res
+bfam                                    
+phi           0.014        0.003  -0.003
+mistral       0.008       -0.000   0.026
+falcon        0.004        0.002  -0.023
+gemma         0.002        0.002  -0.008
+qwen          0.000        0.004   0.009
+llama        -0.031       -0.015   0.004
+   base model qwen2.5_1.5b: excess_res +0.019, rank 5/23 (mode), rank 2/23 (probabilistic)
+   top-5 by excess_res: phi4-mini_3.8b +0.047, gemma3_4b +0.029, mistral-small_22b +0.022, mistral_7b +0.021, qwen2.5_1.5b +0.019
+   top-5 by share_p_res: mistral_7b +0.026, qwen2.5_1.5b +0.022, gemma3_4b +0.019, qwen3_8b +0.012, falcon3_10b +0.012
+
+-- deepseek-r1_7b (n rows 3000, acc 0.529; base family qwen, nearest base qwen2.5_7b)
+         excess_res  share_p_res  co_res
+bfam                                    
+falcon        0.028        0.019  -0.001
+phi           0.027       -0.000  -0.003
+qwen          0.000        0.011  -0.011
+mistral      -0.003       -0.017   0.022
+llama        -0.021       -0.020   0.006
+gemma        -0.030       -0.004  -0.005
+   base model qwen2.5_7b: excess_res -0.026, rank 16/23 (mode), rank 13/23 (probabilistic)
+   top-5 by excess_res: qwen3_8b +0.076, phi4-mini_3.8b +0.043, falcon3_1b +0.038, falcon3_7b +0.035, phi4_14b +0.030
+   top-5 by share_p_res: qwen3_8b +0.055, gemma3_4b +0.025, falcon3_1b +0.022, falcon3_3b +0.021, falcon3_10b +0.019
+
+-- deepseek-r1_8b (n rows 3000, acc 0.753; base family llama, nearest base llama3.1_8b)
+         excess_res  share_p_res  co_res
+bfam                                    
+gemma         0.017        0.020   0.004
+falcon        0.011        0.010  -0.020
+qwen          0.002        0.010   0.007
+phi          -0.005       -0.014   0.003
+mistral      -0.011       -0.018   0.008
+llama        -0.024       -0.024  -0.001
+   base model llama3.1_8b: excess_res -0.036, rank 17/23 (mode), rank 20/23 (probabilistic)
+   top-5 by excess_res: qwen3_8b +0.126, gemma3_4b +0.065, phi4-mini_3.8b +0.035, mistral_7b +0.025, falcon3_1b +0.022
+   top-5 by share_p_res: qwen3_8b +0.106, gemma3_4b +0.053, gemma3_27b +0.026, mistral_7b +0.022, phi4-mini_3.8b +0.019
+
+-- deepseek-r1_14b (n rows 3000, acc 0.803; base family qwen, nearest base qwen2.5_14b)
+         excess_res  share_p_res  co_res
+bfam                                    
+falcon        0.020        0.003  -0.021
+qwen          0.019        0.018   0.003
+mistral      -0.006       -0.013   0.016
+phi          -0.009       -0.015   0.005
+llama        -0.018       -0.010  -0.000
+gemma        -0.019        0.003   0.002
+   base model qwen2.5_14b: excess_res +0.022, rank 7/23 (mode), rank 7/23 (probabilistic)
+   top-5 by excess_res: qwen3_8b +0.083, falcon3_7b +0.047, falcon3_1b +0.044, phi4-mini_3.8b +0.040, mistral_7b +0.026
+   top-5 by share_p_res: qwen3_8b +0.064, mistral_7b +0.050, gemma3_4b +0.048, phi4-mini_3.8b +0.021, llama3.2_1b +0.018
+
+== Distill-distill pairs (same R1 training data, different/same base) vs accuracy-matched cross-family reference pairs ==
+  deepseek-r1_1.5b  deepseek-r1_7b    n=3000 acc 0.31/0.53  excess 0.181 vs matched 0.063 (n=7)   share_p 0.418 vs 0.396   co 0.657 vs 0.622
+  deepseek-r1_1.5b  deepseek-r1_8b    n=3000 acc 0.31/0.75  excess 0.103 vs matched 0.037 (n=10)   share_p 0.397 vs 0.349   co 0.481 vs 0.426
+  deepseek-r1_1.5b  deepseek-r1_14b   n=3000 acc 0.31/0.80  excess 0.146 vs matched 0.042 (n=13)   share_p 0.422 vs 0.364   co 0.441 vs 0.399
+  deepseek-r1_7b    deepseek-r1_8b    n=3000 acc 0.53/0.75  excess 0.339 vs matched 0.233 (n=18)   share_p 0.543 vs 0.543   co 0.551 vs 0.471
+  deepseek-r1_7b    deepseek-r1_14b   n=3000 acc 0.53/0.80  excess 0.342 vs matched 0.231 (n=23)   share_p 0.581 vs 0.544   co 0.536 vs 0.444
+  deepseek-r1_8b    deepseek-r1_14b   n=3000 acc 0.75/0.80  excess 0.434 vs matched 0.319 (n=26)   share_p 0.642 vs 0.614   co 0.585 vs 0.486
+
+== Closed-set "who does this distill look like": likelihood over 23 reference models, k=20 probe answers (runs 5-9) ==
+  deepseek-r1_1.5b  random q: llama3.2_3b 0.24, llama3.2_1b 0.14, phi4-mini_3.8b 0.10, falcon3_1b 0.09  [base fam 0.10]
+                    wrong only: llama3.2_1b 0.34, llama3.2_3b 0.29, falcon3_1b 0.20, gemma3_1b 0.06  [base fam 0.02]
+  deepseek-r1_7b    random q: phi4-mini_3.8b 0.15, mistral-nemo_12b 0.12, llama3.1_8b 0.09, falcon3_7b 0.08  [base fam 0.17]
+                    wrong only: llama3.2_3b 0.34, falcon3_1b 0.20, llama3.2_1b 0.17, phi4-mini_3.8b 0.10  [base fam 0.04]
+  deepseek-r1_8b    random q: qwen3_8b 0.38, mistral-small_22b 0.10, phi3_14b 0.09, phi4_14b 0.07  [base fam 0.02]
+                    wrong only: llama3.2_3b 0.29, phi4-mini_3.8b 0.16, falcon3_1b 0.11, qwen3_8b 0.07  [base fam 0.40]
+  deepseek-r1_14b   random q: qwen3_8b 0.23, phi3_14b 0.12, phi4_14b 0.12, qwen2.5_14b 0.10  [base fam 0.38]
+                    wrong only: phi4-mini_3.8b 0.20, llama3.1_8b 0.12, llama3.2_3b 0.10, mistral-small_22b 0.09  [base fam 0.11]

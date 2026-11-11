@@ -1,0 +1,63 @@
+models complete on both sets: 27  (chance 0.037)
+  ['deepseek-r1_1.5b', 'deepseek-r1_14b', 'deepseek-r1_7b', 'deepseek-r1_8b', 'falcon3_10b', 'falcon3_1b', 'falcon3_3b', 'falcon3_7b', 'gemma3_12b', 'gemma3_1b', 'gemma3_27b', 'gemma3_4b', 'llama3.1_8b', 'llama3.2_1b', 'llama3.2_3b', 'mistral-nemo_12b', 'mistral-small_22b', 'mistral_7b', 'phi3_14b', 'phi4-mini_3.8b', 'phi4_14b', 'qwen2.5_1.5b', 'qwen2.5_14b', 'qwen2.5_3b', 'qwen2.5_7b', 'qwen3_14b', 'qwen3_8b']
+
+== 1. Identification on the 500 NEW questions ==
+    lik_all  lik_errors  condHamming_errors
+5     0.447       0.625               0.518
+10    0.646       0.786               0.671
+20    0.831       0.900               0.783
+50    0.953       0.977               0.900
+-- same models, random 500-question subsets of the 3k (mean of 5) --
+    lik_all  lik_errors  condHamming_errors
+5     0.464       0.646               0.512
+10    0.670       0.788               0.668
+20    0.844       0.906               0.799
+50    0.958       0.978               0.917
+-- difference (new - 3k subsets) --
+    lik_all  lik_errors  condHamming_errors
+5    -0.017      -0.021               0.006
+10   -0.024      -0.002               0.004
+20   -0.013      -0.007              -0.016
+50   -0.005      -0.001              -0.017
+
+== 2. Open set: thresholds frozen on the 3k vs recalibrated on new questions (k answers, 5th percentile) ==
+  k=10  frozen: known accepted 0.634 unknown rejected 0.388   |   recalibrated: 0.644 / 0.365
+  k=20  frozen: known accepted 0.774 unknown rejected 0.617   |   recalibrated: 0.793 / 0.615
+  k=50  frozen: known accepted 0.880 unknown rejected 0.840   |   recalibrated: 0.913 / 0.841
+
+== 3. Stability between the 3k and the new questions ==
+  acc             3k vs new: Pearson 0.997   mean |diff| 0.016
+  unanimous       3k vs new: Pearson 0.996   mean |diff| 0.021
+  top_slot_share  3k vs new: Pearson 0.984   mean |diff| 0.017
+                   acc_3k  unanimous_3k  top_slot_share_3k  acc_new  unanimous_new  top_slot_share_new
+deepseek-r1_1.5b    0.312         0.013              0.287    0.312          0.004               0.282
+deepseek-r1_14b     0.803         0.561              0.267    0.828          0.542               0.286
+deepseek-r1_7b      0.529         0.113              0.274    0.530          0.126               0.263
+deepseek-r1_8b      0.753         0.334              0.279    0.758          0.284               0.261
+falcon3_10b         0.790         0.826              0.279    0.808          0.828               0.297
+falcon3_1b          0.307         0.199              0.365    0.336          0.190               0.331
+falcon3_3b          0.440         0.455              0.399    0.472          0.486               0.396
+falcon3_7b          0.737         0.568              0.313    0.752          0.560               0.334
+gemma3_12b          0.811         0.963              0.263    0.828          0.926               0.285
+gemma3_1b           0.271         0.780              0.763    0.268          0.698               0.744
+gemma3_27b          0.851         0.972              0.265    0.854          0.936               0.281
+gemma3_4b           0.549         0.908              0.311    0.558          0.824               0.303
+llama3.1_8b         0.627         0.310              0.340    0.664          0.290               0.350
+llama3.2_1b         0.250         0.152              0.499    0.218          0.150               0.497
+llama3.2_3b         0.394         0.053              0.403    0.412          0.046               0.392
+mistral-nemo_12b    0.686         0.374              0.308    0.682          0.396               0.302
+mistral-small_22b   0.773         0.482              0.301    0.798          0.456               0.336
+mistral_7b          0.543         0.681              0.511    0.562          0.670               0.494
+phi3_14b            0.844         0.557              0.262    0.858          0.548               0.260
+phi4-mini_3.8b      0.590         0.331              0.342    0.610          0.326               0.348
+phi4_14b            0.849         0.806              0.265    0.872          0.828               0.300
+qwen2.5_1.5b        0.514         0.609              0.414    0.544          0.640               0.424
+qwen2.5_14b         0.881         0.964              0.260    0.896          0.966               0.299
+qwen2.5_3b          0.604         0.691              0.360    0.584          0.686               0.331
+qwen2.5_7b          0.745         0.889              0.386    0.734          0.894               0.378
+qwen3_14b           0.854         0.781              0.260    0.862          0.768               0.292
+qwen3_8b            0.816         0.733              0.267    0.810          0.740               0.302
+  pairwise excess same-wrong share, 3k vs new questions (351 pairs; median both-wrong on new = 64): Spearman 0.880, Pearson 0.874, Mantel p 0.0000
+
+== 4. Family and reasoning effects on the new questions (accuracy-controlled; permutation over models) ==
+  same family +0.016 (p 0.104)   both reasoning +0.105 (p 0.000)

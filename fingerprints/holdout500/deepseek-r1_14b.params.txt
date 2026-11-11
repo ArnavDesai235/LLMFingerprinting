@@ -1,0 +1,5 @@
+stop                           "<｜begin▁of▁sentence｜>"
+stop                           "<｜end▁of▁sentence｜>"
+stop                           "<｜User｜>"
+stop                           "<｜Assistant｜>"
+ollama version is 0.32.14

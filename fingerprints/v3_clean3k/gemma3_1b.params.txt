@@ -1,0 +1,5 @@
+temperature                    1
+top_k                          64
+top_p                          0.95
+stop                           "<end_of_turn>"
+ollama version is 0.32.14

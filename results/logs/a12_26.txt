@@ -1,0 +1,78 @@
+26 models: {'qwen': np.int64(5), 'deepseek': np.int64(4), 'falcon': np.int64(4), 'gemma': np.int64(4), 'llama': np.int64(3), 'mistral': np.int64(3), 'phi': np.int64(3)}
+
+== within vs across family (means over pairs) ==
+          DH     co   lift  share   null  excess
+fam                                             
+False  0.726  0.491  1.591  0.525  0.332   0.193
+True   0.696  0.503  1.666  0.563  0.337   0.226
+
+== family coefficient after controlling for accuracy (min, diff); model-level permutation p ==
+  DH      same_fam coef -0.033   p=0.0000
+  co      same_fam coef +0.023   p=0.0000
+  lift    same_fam coef +0.071   p=0.0586
+  share   same_fam coef +0.037   p=0.0000
+  excess  same_fam coef +0.032   p=0.0000
+
+== per family: within-family excess same-wrong minus accuracy-matched cross-family pairs ==
+  deepseek 6 pairs  mean diff +0.084  positive 6/6
+  falcon   6 pairs  mean diff +0.064  positive 6/6
+  gemma    6 pairs  mean diff +0.003  positive 3/6
+  llama    3 pairs  mean diff +0.047  positive 3/3
+  mistral  3 pairs  mean diff -0.026  positive 1/3
+  phi      3 pairs  mean diff +0.040  positive 2/3
+  qwen     10 pairs  mean diff -0.007  positive 5/10
+
+== within-family pairs ==
+                a                 b    DH    co  share  null  excess  nboth
+ deepseek-r1_1.5b   deepseek-r1_14b 0.744 0.441  0.484 0.338   0.146    488
+ deepseek-r1_1.5b    deepseek-r1_7b 0.649 0.657  0.526 0.345   0.181   1122
+ deepseek-r1_1.5b    deepseek-r1_8b 0.760 0.481  0.440 0.337   0.103    595
+  deepseek-r1_14b    deepseek-r1_7b 0.602 0.536  0.678 0.336   0.342    490
+  deepseek-r1_14b    deepseek-r1_8b 0.548 0.585  0.767 0.334   0.434    387
+   deepseek-r1_7b    deepseek-r1_8b 0.609 0.551  0.674 0.335   0.339    564
+      falcon3_10b        falcon3_1b 0.773 0.451  0.426 0.340   0.087    516
+      falcon3_10b        falcon3_3b 0.700 0.480  0.557 0.344   0.213    494
+      falcon3_10b        falcon3_7b 0.593 0.539  0.750 0.334   0.416    380
+       falcon3_1b        falcon3_3b 0.604 0.712  0.553 0.397   0.156   1331
+       falcon3_1b        falcon3_7b 0.758 0.492  0.440 0.346   0.094    630
+       falcon3_3b        falcon3_7b 0.672 0.532  0.575 0.355   0.220    612
+       gemma3_12b         gemma3_1b 0.850 0.371  0.327 0.325   0.001    413
+       gemma3_12b        gemma3_27b 0.557 0.585  0.752 0.334   0.418    294
+       gemma3_12b         gemma3_4b 0.652 0.515  0.616 0.333   0.283    451
+        gemma3_1b        gemma3_27b 0.850 0.327  0.344 0.336   0.008    323
+        gemma3_1b         gemma3_4b 0.805 0.559  0.339 0.274   0.066    961
+       gemma3_27b         gemma3_4b 0.684 0.449  0.607 0.331   0.276    349
+      llama3.1_8b       llama3.2_1b 0.782 0.538  0.382 0.319   0.063    854
+      llama3.1_8b       llama3.2_3b 0.721 0.573  0.474 0.322   0.152    817
+      llama3.2_1b       llama3.2_3b 0.703 0.699  0.423 0.362   0.061   1413
+ mistral-nemo_12b mistral-small_22b 0.676 0.509  0.627 0.336   0.291    408
+ mistral-nemo_12b        mistral_7b 0.661 0.579  0.574 0.363   0.212    658
+mistral-small_22b        mistral_7b 0.757 0.458  0.499 0.312   0.187    443
+         phi3_14b    phi4-mini_3.8b 0.673 0.456  0.642 0.332   0.309    346
+         phi3_14b          phi4_14b 0.617 0.541  0.707 0.333   0.374    249
+   phi4-mini_3.8b          phi4_14b 0.676 0.441  0.650 0.333   0.317    329
+     qwen2.5_1.5b       qwen2.5_14b 0.752 0.357  0.553 0.335   0.218    257
+     qwen2.5_1.5b        qwen2.5_3b 0.687 0.573  0.544 0.337   0.206    754
+     qwen2.5_1.5b        qwen2.5_7b 0.733 0.470  0.539 0.329   0.211    497
+     qwen2.5_1.5b          qwen3_8b 0.742 0.434  0.531 0.337   0.194    390
+      qwen2.5_14b        qwen2.5_3b 0.757 0.351  0.583 0.332   0.252    228
+      qwen2.5_14b        qwen2.5_7b 0.700 0.412  0.679 0.331   0.348    215
+      qwen2.5_14b          qwen3_8b 0.651 0.480  0.709 0.333   0.375    213
+       qwen2.5_3b        qwen2.5_7b 0.668 0.523  0.619 0.363   0.256    499
+       qwen2.5_3b          qwen3_8b 0.740 0.436  0.555 0.337   0.218    353
+       qwen2.5_7b          qwen3_8b 0.654 0.499  0.683 0.338   0.345    325
+
+== whole-family all-wrong overlap ==
+  deepseek k=4  all-wrong  291  identical 0.36  (bias null 0.04;  400 acc-matched cross-family groups 0.20)
+  falcon   k=4  all-wrong  278  identical 0.31  (bias null 0.05;  172 acc-matched cross-family groups 0.15)
+  gemma    k=4  all-wrong  191  identical 0.20  (bias null 0.03;  400 acc-matched cross-family groups 0.21)
+  llama    k=3  all-wrong  651  identical 0.20  (bias null 0.11;  20 acc-matched cross-family groups 0.17)
+  mistral  k=3  all-wrong  309  identical 0.38  (bias null 0.11;  128 acc-matched cross-family groups 0.42)
+  phi      k=3  all-wrong  197  identical 0.53  (bias null 0.11;  107 acc-matched cross-family groups 0.47)
+  qwen     k=5  all-wrong   99  identical 0.26  (bias null 0.01;  400 acc-matched cross-family groups 0.31)
+
+== identification, 26 models (chance 0.038) ==
+  k= 5  random questions: exact 0.468 family 0.533   |  k wrong answers only: exact 0.647
+  k=10  random questions: exact 0.684 family 0.723   |  k wrong answers only: exact 0.808
+  k=20  random questions: exact 0.847 family 0.873   |  k wrong answers only: exact 0.909
+  k=50  random questions: exact 0.962 family 0.970   |  k wrong answers only: exact 0.979

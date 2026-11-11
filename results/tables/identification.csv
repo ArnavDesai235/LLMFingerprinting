@@ -1,0 +1,25 @@
+k,all_answers,wrong_answers_only,set,chance
+1,0.122,0.193,clean 3k (28 models),0.036
+3,0.314,0.477,clean 3k (28 models),0.036
+5,0.457,0.624,clean 3k (28 models),0.036
+10,0.672,0.789,clean 3k (28 models),0.036
+20,0.838,0.913,clean 3k (28 models),0.036
+50,0.962,0.978,clean 3k (28 models),0.036
+1,0.114,0.174,held-out 500 (30 models),0.033
+3,0.296,0.447,held-out 500 (30 models),0.033
+5,0.430,0.593,held-out 500 (30 models),0.033
+10,0.643,0.762,held-out 500 (30 models),0.033
+20,0.820,0.893,held-out 500 (30 models),0.033
+50,0.952,0.976,held-out 500 (30 models),0.033
+1,0.144,0.237,"held-out 500, fixed order (22 models)",0.045
+3,0.368,0.570,"held-out 500, fixed order (22 models)",0.045
+5,0.524,0.709,"held-out 500, fixed order (22 models)",0.045
+10,0.745,0.855,"held-out 500, fixed order (22 models)",0.045
+20,0.892,0.954,"held-out 500, fixed order (22 models)",0.045
+50,0.977,0.996,"held-out 500, fixed order (22 models)",0.045
+1,0.094,0.124,"held-out 500, shuffled order (22 models)",0.045
+3,0.170,0.214,"held-out 500, shuffled order (22 models)",0.045
+5,0.226,0.285,"held-out 500, shuffled order (22 models)",0.045
+10,0.325,0.388,"held-out 500, shuffled order (22 models)",0.045
+20,0.455,0.549,"held-out 500, shuffled order (22 models)",0.045
+50,0.679,0.761,"held-out 500, shuffled order (22 models)",0.045

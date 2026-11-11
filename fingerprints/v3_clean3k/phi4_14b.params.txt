@@ -1,0 +1,4 @@
+stop                           "<|im_start|>"
+stop                           "<|im_end|>"
+stop                           "<|im_sep|>"
+ollama version is 0.32.14

@@ -1,0 +1,32 @@
+26 models, chance 0.038
+
+== 5-fold unseen questions, TEXT FEATURES (train 2400 / test 600 questions per fold) ==
+   predicting each model's usual answer on unseen questions: 0.377  (always-its-favourite-slot baseline 0.352, random .25)
+    gen_random  gen_errors  perq_random  perq_errors
+5        0.139       0.153        0.475        0.625
+10       0.178       0.206        0.681        0.790
+20       0.247       0.264        0.853        0.906
+50       0.360       0.372        0.967        0.976 
+
+== 5-fold unseen questions, POSITION BIAS ONLY (train 2400 / test 600 questions per fold) ==
+   predicting each model's usual answer on unseen questions: 0.352  (always-its-favourite-slot baseline 0.352, random .25)
+    gen_random  gen_errors  perq_random  perq_errors
+5        0.134       0.146        0.471        0.630
+10       0.181       0.198        0.687        0.792
+20       0.233       0.255        0.850        0.910
+50       0.347       0.348        0.968        0.974 
+
+== domain shift WikiHow -> ActivityNet (train 2031 / test 969), TEXT FEATURES ==   usual-answer prediction 0.348 (slot baseline 0.310)
+    gen_random  gen_errors  perq_random  perq_errors
+5        0.099       0.102        0.505        0.613
+10       0.128       0.128        0.734        0.782
+20       0.151       0.151        0.883        0.913
+50       0.193       0.186        0.978        0.984 
+
+== domain shift ActivityNet -> WikiHow (train 969 / test 2031), TEXT FEATURES ==   usual-answer prediction 0.292 (slot baseline 0.284)
+    gen_random  gen_errors  perq_random  perq_errors
+5        0.086       0.099        0.450        0.638
+10       0.104       0.132        0.644        0.801
+20       0.127       0.153        0.817        0.901
+50       0.145       0.168        0.946        0.968 
+

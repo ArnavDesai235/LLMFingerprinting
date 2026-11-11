@@ -1,0 +1,4 @@
+stop                           "<|start_header_id|>"
+stop                           "<|end_header_id|>"
+stop                           "<|eot_id|>"
+ollama version is 0.32.14
