@@ -1,0 +1,207 @@
+models complete in both: 30 (chance 0.033)
+  ['deepseek-r1_1.5b', 'deepseek-r1_14b', 'deepseek-r1_7b', 'deepseek-r1_8b', 'falcon3_10b', 'falcon3_1b', 'falcon3_3b', 'falcon3_7b', 'gemma3_12b', 'gemma3_1b', 'gemma3_27b', 'gemma3_4b', 'llama3.1_8b', 'llama3.2_1b', 'llama3.2_3b', 'mistral-nemo_12b', 'mistral-small_22b', 'mistral_7b', 'phi3_14b', 'phi3_3.8b', 'phi4-mini_3.8b', 'phi4_14b', 'qwen2.5_1.5b', 'qwen2.5_14b', 'qwen2.5_3b', 'qwen2.5_7b', 'qwen3_1.7b', 'qwen3_14b', 'qwen3_4b', 'qwen3_8b']
+
+== 1. Per model: unshuffled (u) vs shuffled (s) ==
+acc_run = per-answer accuracy; acc_mode = accuracy of the 10-run mode; topslot = share of answers in the favourite slot;
+unan = all 10 runs same ending; same_ending/same_slot_share_s = mean share of the modal ENDING / modal SLOT across shuffled runs;
+mode_agree = unshuffled mode == shuffled mode (same ending)
+
+                   acc_run_u  acc_run_s  acc_mode_u  acc_mode_s  topslot_u  topslot_s  unan_u  unan_s  same_ending_share_s  same_slot_share_s  mode_agree
+model                                                                                                                                                    
+deepseek-r1_1.5b       0.296      0.293       0.312       0.292      0.282      0.289   0.004   0.012                0.465              0.423       0.444
+deepseek-r1_14b        0.790      0.799       0.828       0.860      0.286      0.274   0.542   0.494                0.858              0.430       0.886
+deepseek-r1_7b         0.476      0.478       0.530       0.546      0.263      0.269   0.126   0.066                0.653              0.432       0.704
+deepseek-r1_8b         0.692      0.694       0.758       0.780      0.261      0.271   0.284   0.214                0.748              0.416       0.826
+falcon3_10b            0.804      0.785       0.808       0.802      0.297      0.268   0.828   0.554                0.867              0.449       0.860
+falcon3_1b             0.326      0.315       0.336       0.340      0.331      0.370   0.190   0.012                0.507              0.581       0.424
+falcon3_3b             0.469      0.448       0.472       0.540      0.396      0.407   0.486   0.040                0.619              0.561       0.586
+falcon3_7b             0.726      0.722       0.752       0.786      0.334      0.308   0.560   0.390                0.812              0.454       0.826
+gemma3_12b             0.827      0.822       0.828       0.844      0.285      0.268   0.926   0.662                0.897              0.441       0.882
+gemma3_1b              0.272      0.269       0.268       0.278      0.744      0.743   0.698   0.000                0.453              0.818       0.258
+gemma3_27b             0.855      0.859       0.854       0.886      0.281      0.263   0.936   0.724                0.925              0.433       0.894
+gemma3_4b              0.562      0.552       0.558       0.630      0.303      0.309   0.824   0.194                0.729              0.501       0.664
+llama3.1_8b            0.614      0.599       0.664       0.720      0.350      0.341   0.290   0.146                0.684              0.472       0.702
+llama3.2_1b            0.230      0.253       0.218       0.256      0.497      0.497   0.150   0.000                0.430              0.714       0.276
+llama3.2_3b            0.355      0.358       0.412       0.476      0.392      0.413   0.046   0.006                0.468              0.495       0.414
+mistral-nemo_12b       0.638      0.650       0.682       0.776      0.302      0.306   0.396   0.190                0.717              0.477       0.724
+mistral-small_22b      0.749      0.737       0.798       0.838      0.336      0.319   0.456   0.348                0.795              0.445       0.798
+mistral_7b             0.557      0.574       0.562       0.650      0.494      0.503   0.670   0.196                0.690              0.578       0.604
+phi3_14b               0.813      0.807       0.858       0.898      0.260      0.267   0.548   0.444                0.852              0.430       0.892
+phi3_3.8b              0.402      0.402       0.432       0.504      0.516      0.509   0.136   0.022                0.511              0.548       0.412
+phi4-mini_3.8b         0.568      0.555       0.610       0.660      0.348      0.360   0.326   0.136                0.687              0.463       0.692
+phi4_14b               0.862      0.845       0.872       0.864      0.300      0.263   0.828   0.682                0.912              0.435       0.916
+qwen2.5_1.5b           0.527      0.513       0.544       0.582      0.424      0.408   0.640   0.174                0.689              0.534       0.634
+qwen2.5_14b            0.894      0.885       0.896       0.904      0.299      0.263   0.966   0.776                0.937              0.435       0.928
+qwen2.5_3b             0.586      0.580       0.584       0.672      0.331      0.348   0.686   0.162                0.702              0.504       0.654
+qwen2.5_7b             0.732      0.751       0.734       0.832      0.378      0.387   0.894   0.406                0.815              0.498       0.756
+qwen3_1.7b             0.436      0.436       0.450       0.504      0.351      0.352   0.208   0.082                0.638              0.492       0.604
+qwen3_14b              0.854      0.850       0.862       0.872      0.292      0.268   0.768   0.718                0.922              0.427       0.938
+qwen3_4b               0.760      0.762       0.768       0.800      0.339      0.310   0.496   0.426                0.811              0.419       0.864
+qwen3_8b               0.804      0.802       0.810       0.826      0.302      0.282   0.740   0.610                0.892              0.433       0.918
+
+means:
+acc_run_u              0.616
+acc_run_s              0.613
+acc_mode_u             0.635
+acc_mode_s             0.674
+topslot_u              0.352
+topslot_s              0.348
+unan_u                 0.522
+unan_s                 0.296
+same_ending_share_s    0.723
+same_slot_share_s      0.491
+mode_agree             0.699
+
+corr(topslot_u, d_acc_run) = 0.196;  corr(topslot_u, d_acc_mode) = 0.210
+models whose shuffled answers follow the ENDING more than the SLOT: 25/30
+
+== 2. Errors: is the wrong ending the same when slots change? ==
+                   n_wrong_u  shuf_mode_same_wrong  shuf_mode_correct
+model                                                                
+deepseek-r1_1.5b         344                 0.413              0.192
+deepseek-r1_14b           86                 0.535              0.384
+deepseek-r1_7b           235                 0.570              0.234
+deepseek-r1_8b           121                 0.537              0.347
+falcon3_10b               96                 0.615              0.312
+falcon3_1b               332                 0.395              0.268
+falcon3_3b               264                 0.428              0.341
+falcon3_7b               124                 0.508              0.347
+gemma3_12b                86                 0.558              0.337
+gemma3_1b                366                 0.249              0.276
+gemma3_27b                73                 0.466              0.411
+gemma3_4b                221                 0.452              0.376
+llama3.1_8b              168                 0.381              0.435
+llama3.2_1b              391                 0.263              0.238
+llama3.2_3b              294                 0.282              0.388
+mistral-nemo_12b         159                 0.352              0.516
+mistral-small_22b        101                 0.327              0.525
+mistral_7b               219                 0.338              0.443
+phi3_14b                  71                 0.423              0.465
+phi3_3.8b                284                 0.254              0.415
+phi4-mini_3.8b           195                 0.462              0.379
+phi4_14b                  64                 0.609              0.203
+qwen2.5_1.5b             228                 0.434              0.320
+qwen2.5_14b               52                 0.558              0.327
+qwen2.5_3b               208                 0.399              0.442
+qwen2.5_7b               133                 0.286              0.571
+qwen3_1.7b               275                 0.465              0.284
+qwen3_14b                 69                 0.710              0.232
+qwen3_4b                 116                 0.603              0.328
+qwen3_8b                  95                 0.716              0.232
+means: {'n_wrong_u': 182.333, 'shuf_mode_same_wrong': 0.453, 'shuf_mode_correct': 0.352} (chance same wrong given still wrong = 1/3)
+
+== 3. Identification (likelihood; reference runs 0-4, probe runs 5-9) ==
+-- unshuffled -> unshuffled --
+    all_answers  wrong_only
+5         0.441       0.593
+10        0.650       0.770
+20        0.821       0.897
+50        0.955       0.973
+-- shuffled -> shuffled --
+    all_answers  wrong_only
+5         0.186       0.216
+10        0.270       0.346
+20        0.408       0.488
+50        0.636       0.707
+-- unshuffled ref -> shuffled probe --
+    all_answers  wrong_only
+5         0.140       0.138
+10        0.192       0.205
+20        0.261       0.299
+50        0.387       0.469
+-- shuffled ref -> unshuffled probe --
+    all_answers  wrong_only
+5         0.184       0.219
+10        0.275       0.325
+20        0.419       0.464
+50        0.636       0.668
+
+== 4. Pairwise same-wrong share (modes), shuffled vs unshuffled ==
+  mean same-wrong share: unshuffled 0.520 (excess over slot null +0.185), shuffled 0.566 (excess +0.232); chance 1/3
+  pair-level correlation unshuffled vs shuffled share: Spearman 0.795; unshuffled EXCESS vs shuffled share: Spearman 0.811
+  same-family effect, unshuffled, excess over slot null: +0.030 (p 0.004)
+  same-family effect, unshuffled, raw share: +0.036 (p 0.007)
+  same-family effect, shuffled, raw share (no null needed): +0.047 (p 0.000)
+  (reasoning models complete in both: 8; reasoning test waits for the rest)
+fixed_excess: SD of cross-family residuals 0.073
+fixed_raw: SD of cross-family residuals 0.083
+shuffled_raw: SD of cross-family residuals 0.068
+measure     fixed_excess  fixed_raw  shuffled_raw
+family                                           
+ALL within         0.029      0.034         0.046
+deepseek           0.116      0.118         0.066
+falcon             0.057      0.089         0.051
+gemma             -0.035     -0.038         0.032
+llama              0.010      0.003        -0.025
+mistral           -0.052     -0.050         0.000
+phi               -0.035     -0.036         0.046
+qwen               0.043      0.048         0.056
+measure    fixed_excess fixed_raw shuffled_raw
+family                                        
+ALL within        32/58     36/58        42/58
+deepseek            6/6       6/6          4/6
+falcon              4/6       6/6          6/6
+gemma               1/6       1/6          4/6
+llama               2/3       2/3          1/3
+mistral             1/3       1/3          1/3
+phi                 2/6       1/6          5/6
+qwen              16/28     19/28        21/28
+                     a                  b  share  nboth
+426         qwen2.5_7b          qwen3_14b  0.881     42
+433          qwen3_14b           qwen3_8b  0.878     49
+432          qwen3_14b           qwen3_4b  0.841     44
+422         qwen2.5_3b          qwen3_14b  0.792     48
+30     deepseek-r1_14b     deepseek-r1_8b  0.792     48
+428         qwen2.5_7b           qwen3_8b  0.780     50
+390     phi4-mini_3.8b           phi4_14b  0.771     48
+427         qwen2.5_7b           qwen3_4b  0.771     48
+434           qwen3_4b           qwen3_8b  0.764     55
+424         qwen2.5_3b           qwen3_8b  0.763     59
+112        falcon3_10b         falcon3_7b  0.742     62
+29     deepseek-r1_14b     deepseek-r1_7b  0.741     58
+417        qwen2.5_14b          qwen3_14b  0.733     30
+419        qwen2.5_14b           qwen3_8b  0.722     36
+423         qwen2.5_3b           qwen3_4b  0.719     64
+370           phi3_14b     phi4-mini_3.8b  0.718     39
+205         gemma3_12b         gemma3_27b  0.694     36
+415        qwen2.5_14b         qwen2.5_7b  0.690     29
+245         gemma3_27b          gemma3_4b  0.682     44
+371           phi3_14b           phi4_14b  0.677     31
+414        qwen2.5_14b         qwen2.5_3b  0.667     39
+429         qwen3_1.7b          qwen3_14b  0.660     53
+330   mistral-nemo_12b  mistral-small_22b  0.660     50
+411       qwen2.5_1.5b          qwen3_14b  0.644     45
+413       qwen2.5_1.5b           qwen3_8b  0.644     59
+57      deepseek-r1_7b     deepseek-r1_8b  0.640     86
+331   mistral-nemo_12b         mistral_7b  0.639     72
+111        falcon3_10b         falcon3_3b  0.634     71
+418        qwen2.5_14b           qwen3_4b  0.625     32
+206         gemma3_12b          gemma3_4b  0.619     63
+431         qwen3_1.7b           qwen3_8b  0.609     69
+410       qwen2.5_1.5b         qwen3_1.7b  0.608    130
+420         qwen2.5_3b         qwen2.5_7b  0.607     61
+408       qwen2.5_1.5b         qwen2.5_3b  0.603    116
+412       qwen2.5_1.5b           qwen3_4b  0.597     67
+421         qwen2.5_3b         qwen3_1.7b  0.596    114
+344  mistral-small_22b         mistral_7b  0.596     57
+381          phi3_3.8b           phi4_14b  0.583     48
+409       qwen2.5_1.5b         qwen2.5_7b  0.571     63
+407       qwen2.5_1.5b        qwen2.5_14b  0.571     35
+159         falcon3_3b         falcon3_7b  0.570     79
+369           phi3_14b          phi3_3.8b  0.564     39
+430         qwen3_1.7b           qwen3_4b  0.548     73
+380          phi3_3.8b     phi4-mini_3.8b  0.536    112
+225          gemma3_1b         gemma3_27b  0.511     45
+135         falcon3_1b         falcon3_3b  0.508    195
+283        llama3.1_8b        llama3.2_3b  0.500     92
+136         falcon3_1b         falcon3_7b  0.500     92
+416        qwen2.5_14b         qwen3_1.7b  0.487     39
+1     deepseek-r1_1.5b     deepseek-r1_7b  0.487    189
+110        falcon3_10b         falcon3_1b  0.463     82
+425         qwen2.5_7b         qwen3_1.7b  0.462     65
+226          gemma3_1b          gemma3_4b  0.430    135
+0     deepseek-r1_1.5b    deepseek-r1_14b  0.407     59
+204         gemma3_12b          gemma3_1b  0.397     63
+282        llama3.1_8b        llama3.2_1b  0.391    110
+2     deepseek-r1_1.5b     deepseek-r1_8b  0.367     90
+299        llama3.2_1b        llama3.2_3b  0.313    198

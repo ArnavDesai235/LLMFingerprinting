@@ -3,6 +3,7 @@ model-level permutation, accuracy matching, per-family breakdown, k-way overlap,
 import sys,itertools;sys.path.insert(0,'.')
 from load import *
 import numpy.linalg as la
+from labels import twin, is_variant
 A=np.load('A_full.npy');y=np.load('y.npy');full=pd.read_csv('full.csv').iloc[:,0].tolist()
 EXCL=set(sys.argv[1:])            # optional models to drop (sensitivity)
 keep=[i for i,m in enumerate(full) if m not in EXCL]; A=A[keep]; full=[full[i] for i in keep]
@@ -23,6 +24,10 @@ for i,j in pairs:
     rec.append(dict(a=full[i],b=full[j],fam=fams[i]==fams[j],accmin=min(acc[i],acc[j]),accdiff=abs(acc[i]-acc[j]),
         co=co,lift=lift,share=share,null=null,excess=share-null,DH=(dh_ij+dh_ji)/2,nboth=both.sum()))
 R=pd.DataFrame(rec)
+TW=np.array([twin(a,b) for a,b in zip(R.a,R.b)])
+if TW.any():   # variant-parent pairs are near-copies: leave them out of every family test (kept for identification)
+    print(f'excluding {TW.sum()} variant-parent pairs from the family tests')
+    R=R[~TW].reset_index(drop=True); pairs=[p for p,t in zip(pairs,TW) if not t]
 print('\n== within vs across family (means over pairs) ==')
 print(R.groupby('fam')[['DH','co','lift','share','null','excess']].mean().round(3))
 X0=np.column_stack([np.ones(len(R)),R.accmin,R.accdiff])
@@ -47,15 +52,17 @@ print('\n== within-family pairs ==')
 print(R[R.fam].sort_values(['a','b'])[['a','b','DH','co','share','null','excess','nboth']].round(3).to_string(index=False))
 # k-way: all models of a family wrong; identical wrong ending vs position-bias null; vs accuracy-matched cross-family groups
 print('\n== whole-family all-wrong overlap ==')
+isv=np.array([is_variant(m) for m in full])
 for f in sorted(set(fams)):
-    idx=np.where(fams==f)[0]; k=len(idx)
+    idx=np.where((fams==f)&~isv)[0]; k=len(idx)
     if k<2: continue
+    if k>len(set(fams)): print(f'  {f:8s} k={k}  (no cross-family group of {k} distinct families exists: skipped)'); continue
     allw=W[idx].all(0); r=np.where(allw)[0]; ident=(mo[idx][:,r]==mo[idx[0]][r]).all(0).mean()
     nullv=np.mean([np.prod(bias[idx][:, [o for o in range(4) if o!=y[t]]]/bias[idx][:, [o for o in range(4) if o!=y[t]]].sum(1,keepdims=True),0).sum() for t in r])
     ca=np.sort(acc[idx]); vals=[]
     for c in itertools.combinations(range(nm),k):
         c=np.array(c)
-        if len(set(fams[c]))<k or np.abs(np.sort(acc[c])-ca).max()>=0.07: continue
+        if isv[c].any() or len(set(fams[c]))<k or np.abs(np.sort(acc[c])-ca).max()>=0.07: continue
         aw=W[c].all(0); vals.append((mo[c][:,aw]==mo[c[0]][aw]).all(0).mean())
         if len(vals)>=400: break
     print(f'  {f:8s} k={k}  all-wrong {allw.sum():4d}  identical {ident:.2f}  (bias null {nullv:.2f};  {len(vals)} acc-matched cross-family groups {np.mean(vals) if vals else float("nan"):.2f})')

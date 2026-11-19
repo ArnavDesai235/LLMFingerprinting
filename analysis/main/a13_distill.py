@@ -1,6 +1,9 @@
 """Distillation test: do DeepSeek-R1 distills share errors with their BASE model's family (architecture/pretraining)
 or with each other (shared R1 reasoning data)? Works on partial files: each comparison uses the rows both models have.
-Bases (from DeepSeek-R1 paper): r1:1.5b <- Qwen2.5-Math-1.5B, r1:7b <- Qwen2.5-Math-7B, r1:8b <- Llama-3.1-8B, r1:14b <- Qwen2.5-14B.
+Bases: r1:1.5b <- Qwen2.5-Math-1.5B, r1:7b <- Qwen2.5-Math-7B, r1:14b <- Qwen2.5-14B, and the library r1:8b <- Qwen3-8B
+(Ollama's deepseek-r1:8b is DeepSeek-R1-0528-Qwen3-8B; checked 2026-11-19. Before that this script assumed Llama-3.1-8B).
+If the abliterated distills are present (all44 set) they are added: r1-abl:14b/7b <- Qwen2.5, r1-abl-llama:8b <- Llama-3.1-8B
+(the only Llama-based distill in the data). Reference models = all non-distill BASE models (variants excluded).
 Metrics per pair (on mode answers, plus a probabilistic version that uses all 10 runs):
   share  = P(same wrong ending | both wrong);  excess = share - position-bias null;  co = co-error rate.
 Each distill's pairs with the 23 non-distill reference models are regressed on (min acc, |acc diff|); we report the
@@ -8,11 +11,14 @@ residual of the base family vs other families, and the rank of the base model.
 """
 import sys, itertools; sys.path.insert(0, '.')
 from load import *
+from labels import is_variant
 import numpy.linalg as la
 M = load(); ds2 = ds.set_index('index')
-DIST = {'deepseek-r1_1.5b': 'qwen', 'deepseek-r1_7b': 'qwen', 'deepseek-r1_8b': 'llama', 'deepseek-r1_14b': 'qwen'}
-BASE = {'deepseek-r1_1.5b': 'qwen2.5_1.5b', 'deepseek-r1_7b': 'qwen2.5_7b', 'deepseek-r1_8b': 'llama3.1_8b', 'deepseek-r1_14b': 'qwen2.5_14b'}
-ref = [m for m in M if len(M[m]) == 3000 and m not in DIST]
+DIST = {'deepseek-r1_1.5b': 'qwen', 'deepseek-r1_7b': 'qwen', 'deepseek-r1_8b': 'qwen', 'deepseek-r1_14b': 'qwen',
+        'deepseek-r1-abl_14b': 'qwen', 'deepseek-r1-abl_7b': 'qwen', 'deepseek-r1-abl-llama_8b': 'llama'}
+BASE = {'deepseek-r1_1.5b': 'qwen2.5_1.5b', 'deepseek-r1_7b': 'qwen2.5_7b', 'deepseek-r1_8b': 'qwen3_8b', 'deepseek-r1_14b': 'qwen2.5_14b',
+        'deepseek-r1-abl_14b': 'qwen2.5_14b', 'deepseek-r1-abl_7b': 'qwen2.5_7b', 'deepseek-r1-abl-llama_8b': 'llama3.1_8b'}
+ref = [m for m in M if len(M[m]) == 3000 and m not in DIST and not is_variant(m)]
 dist = [m for m in DIST if m in M]
 print('reference models', len(ref), '| distills', {d: len(M[d]) for d in dist})
 
@@ -50,7 +56,7 @@ for a, b in itertools.combinations(ref, 2):
 R = pd.DataFrame(out); R['fa'] = R.a.map(fam); R['fb'] = R.b.map(fam)
 pd.set_option('display.width', 250)
 
-print('\n== Each distill vs reference models: residual after accuracy controls (fit on that distill\'s 23 pairs) ==')
+print(f'\n== Each distill vs reference models: residual after accuracy controls (fit on that distill\'s {len(ref)} pairs) ==')
 for d in dist:
     S = R[(R.a == d) & R.b.isin(ref)].copy()
     for col in ['excess', 'share_p', 'co']:
@@ -62,8 +68,8 @@ for d in dist:
     rkp = S.sort_values('share_p_res', ascending=False).b.tolist()
     print(f'\n-- {d} (n rows {S.n.min()}, acc {S.accA.iloc[0]:.3f}; base family {DIST[d]}, nearest base {BASE[d]})')
     print(g.round(3).sort_values('excess_res', ascending=False).to_string())
-    print(f'   base model {BASE[d]}: excess_res {S.set_index("b").loc[BASE[d], "excess_res"]:+.3f}, rank {rk.index(BASE[d]) + 1}/23 (mode),'
-          f' rank {rkp.index(BASE[d]) + 1}/23 (probabilistic)')
+    print(f'   base model {BASE[d]}: excess_res {S.set_index("b").loc[BASE[d], "excess_res"]:+.3f}, rank {rk.index(BASE[d]) + 1}/{len(ref)} (mode),'
+          f' rank {rkp.index(BASE[d]) + 1}/{len(ref)} (probabilistic)')
     print('   top-5 by excess_res:', ', '.join(f'{b} {v:+.3f}' for b, v in S.sort_values("excess_res", ascending=False)[["b", "excess_res"]].head(5).values))
     print('   top-5 by share_p_res:', ', '.join(f'{b} {v:+.3f}' for b, v in S.sort_values("share_p_res", ascending=False)[["b", "share_p_res"]].head(5).values))
 
@@ -75,7 +81,7 @@ for _, r in R[R.a.isin(dist) & R.b.isin(dist)].iterrows():
           f'   share_p {r.share_p:.3f} vs {m.share_p.mean():.3f}   co {r.co:.3f} vs {m.co.mean():.3f}')
 
 # identification: classify the distill's probe answers among the 23 reference models (who does it look like?)
-print('\n== Closed-set "who does this distill look like": likelihood over 23 reference models, k=20 probe answers (runs 5-9) ==')
+print(f'\n== Closed-set "who does this distill look like": likelihood over {len(ref)} reference models, k=20 probe answers (runs 5-9) ==')
 rng = np.random.default_rng(0)
 for d in dist:
     idx = rows(d, *ref); y = ds2.loc[idx, 'label'].to_numpy()

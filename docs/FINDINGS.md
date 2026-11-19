@@ -7,6 +7,8 @@ The project makes two claims, and this file collects the evidence for each:
 
 The numbers come from the logs in `results/logs/`. The figures and tables come from `analysis/make_figures.py`.
 
+> **Update 19 Nov 2026:** every analysis was re-run on the complete data (30 base models plus 14 abliterated or reasoning-fine-tuned variants). The final numbers, and what changed, are in `results/logs/final_nov19/README.md` and supersede the numbers below where they differ. The one substantive correction: Ollama's `deepseek-r1:8b` is the Qwen3-8B distill, not the Llama-3.1-8B one (see the Distills bullet).
+
 ## Setup
 
 - **Data.** Clean HellaSwag validation sample: 3,000 questions (2,031 WikiHow and 969 ActivityNet), plus a disjoint 500-question held-out set. See `data/README.md` for why the earlier file was replaced.
@@ -46,7 +48,7 @@ Chance is .036 for the 3k and .033 for the held-out set.
 - **Family effect.** It is small but significant: excess +.032 and same-wrong share +.037, both p < .001 (26 models, a12). Per family it is carried by deepseek (+.084), falcon (+.064), llama (+.047) and phi (+.040). Gemma, qwen2.5 and mistral show nothing beyond capability.
 - **Reasoning effect.** It is much larger than lineage (a14, 27 models, 351 pairs). In the OLS for excess, same base lineage adds +.016 (p .016) and both reasoning-trained adds +.089 (p < .001), with R² .885. All 15 reasoning–reasoning pairs are positive, with a mean residual of +.093.
 - **Held-out replication.** On the held-out set with all 7 reasoning models: reasoning +.100 (p < .001) vs family +.017 (p .06).
-- **Distills.** They inherit little from their base model: two are slightly above their base and two below (a13). Instead they share errors with each other across bases. For example, the Llama-based r1:8b matches the Qwen-based r1:14b. They also match qwen3, which was not trained on R1 data as far as is known.
+- **Distills.** They inherit little from their base model: two are slightly above their base and two below (a13). Instead they share errors with each other across bases. For example, r1:8b matches r1:14b. (Correction, 19 Nov: Ollama's r1:8b is Qwen3-based, not Llama-based, and it does rank its true base qwen3:8b first. The cross-base claim now rests on the abliterated R1-Distill-Llama-8B, which ranks llama3.1:8b 19th of 26 and shares errors with the Qwen-based distills; see `results/logs/final_nov19/`.) They also match qwen3, which was not trained on R1 data as far as is known.
 - **Interpretation.** Reasoning-style post-training or chain-of-thought at inference shapes which wrong answer a model picks more than pretraining does. These two have not been separated yet; a qwen3 thinking-off run is the planned control.
 
 ## Shuffled options (Figs. 5, 6; 22 models, first pass)

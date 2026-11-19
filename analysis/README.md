@@ -2,6 +2,19 @@
 
 All scripts read the fingerprint `.jsonl` files and use the same protocol: runs 0-4 build the reference and runs 5-9 are the probes. Choice codes outside 0-3 are folded into one "unparsed or failed" option.
 
+## `final/`: final runs on the complete data (Nov 19)
+
+```bash
+bash analysis/final/run_all.sh
+```
+
+This builds three model sets with `final/build_sets.py` (base30 with the 8192-token reruns, base30_raw, and all44 = base30 + 14 variants). It runs every script below on them and writes `results/logs/final_nov19/<set>/` and `results/pairs/final_nov19/<set>/`, then `make_figures.py`. It takes about 6 minutes. `results/logs/final_nov19/README.md` lists the changes and the headline numbers. Model labels (family, lineage, reasoning, variant parent) live in `main/labels.py`.
+
+| Script | Question |
+|---|---|
+| `main/a19_variants.py <base_dir> <variants_dir> <csv>` | Do fingerprints survive abliteration and reasoning fine-tuning? (variant vs parent similarity, identification, open set, drift) |
+| `main/a20_library_with_variants.py` | Identification when the library also holds the variants (twin confusion) |
+
 ## `make_figures.py`
 
 ```bash

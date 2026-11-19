@@ -1,0 +1,53 @@
+library: 44 models (30 base, 14 variants); chance 0.023
+
+== 44-model library, all 44 probed ==
+    all_exact  all_twinok  all_totwin  err_exact  err_twinok  err_totwin
+5       0.341       0.400       0.058      0.477       0.539       0.062
+10      0.541       0.607       0.066      0.650       0.715       0.065
+20      0.723       0.789       0.065      0.801       0.864       0.063
+50      0.884       0.934       0.051      0.908       0.961       0.053
+
+== 30 base models probed against the 30-model library (no variants) ==
+    all_exact  all_twinok  all_totwin  err_exact  err_twinok  err_totwin
+5       0.440       0.440         0.0      0.603       0.603         0.0
+10      0.649       0.649         0.0      0.781       0.781         0.0
+20      0.831       0.831         0.0      0.911       0.911         0.0
+50      0.960       0.960         0.0      0.979       0.979         0.0
+
+== the 30 base models probed against the 44-model library (all answers) ==
+    exact  to_twin
+5   0.361    0.056
+10  0.587    0.052
+20  0.780    0.043
+50  0.930    0.025
+
+== per model, k=20 random questions, 44-model library ==
+                   model kind                     twin  exact  to_twin                top_wrong  top_wrong_share
+     deepseek-r1-abl_14b  abl          deepseek-r1_14b   0.41     0.17          deepseek-r1_14b             0.17
+      deepseek-r1-abl_7b  abl           deepseek-r1_7b   0.47     0.28           deepseek-r1_7b             0.28
+         falcon3-abl_10b  abl              falcon3_10b   0.90     0.07              falcon3_10b             0.07
+          falcon3-abl_3b  abl               falcon3_3b   0.99     0.01               falcon3_3b             0.01
+          falcon3-abl_7b  abl               falcon3_7b   0.75     0.16               falcon3_7b             0.16
+         llama3.1-abl_8b  abl              llama3.1_8b   0.95     0.01              llama3.1_8b             0.01
+         llama3.2-abl_3b  abl              llama3.2_3b   0.46     0.31              llama3.2_3b             0.31
+          mistral-abl_7b  abl               mistral_7b   0.62     0.37               mistral_7b             0.37
+    mistral-nemo-abl_12b  abl         mistral-nemo_12b   0.34     0.17         mistral-nemo_12b             0.17
+         deepseek-r1_14b base      deepseek-r1-abl_14b   0.51     0.03                qwen3_14b             0.07
+          deepseek-r1_7b base       deepseek-r1-abl_7b   0.47     0.23       deepseek-r1-abl_7b             0.23
+             falcon3_10b base          falcon3-abl_10b   0.81     0.14          falcon3-abl_10b             0.14
+              falcon3_3b base           falcon3-abl_3b   0.98     0.02           falcon3-abl_3b             0.02
+              falcon3_7b base           falcon3-abl_7b   0.69     0.14           falcon3-abl_7b             0.14
+             llama3.1_8b base          llama3.1-abl_8b   0.72     0.02        mistral-small_22b             0.03
+             llama3.2_3b base          llama3.2-abl_3b   0.64     0.24          llama3.2-abl_3b             0.24
+        mistral-nemo_12b base     mistral-nemo-abl_12b   0.65     0.08     mistral-nemo-abl_12b             0.08
+              mistral_7b base           mistral-abl_7b   0.70     0.30           mistral-abl_7b             0.30
+          phi4-mini_3.8b base phi4-mini-reasoning_3.8b   0.82     0.00                 phi3_14b             0.01
+                phi4_14b base       phi4-reasoning_14b   0.77     0.01              qwen2.5_14b             0.06
+              qwen2.5_3b base  qwen2.5-smallthinker_3b   0.98     0.00          deepseek-r1_14b             0.00
+              qwen2.5_7b base   qwen2.5-openthinker_7b   0.99     0.00          falcon3-abl_10b             0.00
+phi4-mini-reasoning_3.8b   ft           phi4-mini_3.8b   0.57     0.02           deepseek-r1_8b             0.03
+      phi4-reasoning_14b   ft                 phi4_14b   0.51     0.05                qwen3_14b             0.09
+  qwen2.5-openthinker_7b   ft               qwen2.5_7b   0.55     0.04 deepseek-r1-abl-llama_8b             0.04
+ qwen2.5-smallthinker_3b   ft               qwen2.5_3b   0.26     0.02      deepseek-r1-abl_14b             0.07
+
+models without a twin in the library: mean exact 0.795

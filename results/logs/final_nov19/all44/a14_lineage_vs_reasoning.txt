@@ -1,0 +1,187 @@
+reference models 26 | distills {'deepseek-r1_1.5b': 3000, 'deepseek-r1_7b': 3000, 'deepseek-r1_8b': 3000, 'deepseek-r1_14b': 3000, 'deepseek-r1-abl_14b': 3000, 'deepseek-r1-abl_7b': 3000, 'deepseek-r1-abl-llama_8b': 3000}
+44 models; reasoning: ['deepseek-r1-abl-llama_8b', 'deepseek-r1-abl_14b', 'deepseek-r1-abl_7b', 'deepseek-r1_1.5b', 'deepseek-r1_14b', 'deepseek-r1_7b', 'deepseek-r1_8b', 'phi4-mini-reasoning_3.8b', 'phi4-reasoning_14b', 'qwen2.5-openthinker_7b', 'qwen2.5-smallthinker_3b', 'qwen3_1.7b', 'qwen3_14b', 'qwen3_4b', 'qwen3_8b']
+13 variant-parent pairs get their own covariate (twin)
+
+== A: base lineage + both-reasoning ==
+  excess   R2 0.861  same_base +0.013 (p 0.005)  both_reason +0.077 (p 0.000)
+  share_p  R2 0.760  same_base +0.021 (p 0.000)  both_reason +0.028 (p 0.012)
+  co       R2 0.817  same_base +0.009 (p 0.022)  both_reason +0.052 (p 0.000)
+
+== B: developer family + both-reasoning ==
+  excess   R2 0.863  same_dev +0.019 (p 0.000)  both_reason +0.079 (p 0.000)
+  share_p  R2 0.762  same_dev +0.027 (p 0.000)  both_reason +0.032 (p 0.005)
+  co       R2 0.818  same_dev +0.015 (p 0.000)  both_reason +0.053 (p 0.000)
+
+== C: base lineage only ==
+  excess   R2 0.821  same_base +0.038 (p 0.000)
+  share_p  R2 0.754  same_base +0.030 (p 0.000)
+  co       R2 0.785  same_base +0.026 (p 0.000)
+
+== D: fine base lineage (qwen2.5 / qwen3 separate) + both-reasoning ==
+  excess   R2 0.863  same_base_fine +0.020 (p 0.000)  both_reason +0.080 (p 0.000)
+  share_p  R2 0.760  same_base_fine +0.022 (p 0.000)  both_reason +0.034 (p 0.003)
+  co       R2 0.819  same_base_fine +0.016 (p 0.000)  both_reason +0.054 (p 0.000)
+
+== accuracy-controlled excess residual by pair type ==
+                                          mean  count    std
+grp                                                         
+reasoning-nonreasoning                  -0.003    374  0.037
+reasoning-reasoning                      0.073    103  0.042
+same base lineage (non-reasoning pairs)  0.005    109  0.039
+unrelated                               -0.020    347  0.040
+variant-parent                           0.138     13  0.103
+
+== reasoning-reasoning pairs ==
+                       a                        b    n  accA  accB  excess    res
+deepseek-r1-abl-llama_8b      deepseek-r1-abl_14b 3000 0.616 0.751   0.357  0.094
+deepseek-r1-abl-llama_8b       deepseek-r1-abl_7b 3000 0.616 0.471   0.306  0.139
+deepseek-r1-abl-llama_8b         deepseek-r1_1.5b 3000 0.616 0.312   0.172  0.093
+deepseek-r1-abl-llama_8b          deepseek-r1_14b 3000 0.616 0.803   0.381  0.111
+deepseek-r1-abl-llama_8b           deepseek-r1_7b 3000 0.616 0.529   0.320  0.121
+deepseek-r1-abl-llama_8b           deepseek-r1_8b 3000 0.616 0.756   0.305  0.041
+deepseek-r1-abl-llama_8b phi4-mini-reasoning_3.8b 3000 0.616 0.603   0.247  0.008
+deepseek-r1-abl-llama_8b       phi4-reasoning_14b 3000 0.616 0.815   0.391  0.120
+deepseek-r1-abl-llama_8b   qwen2.5-openthinker_7b 3000 0.616 0.678   0.325  0.071
+deepseek-r1-abl-llama_8b  qwen2.5-smallthinker_3b 3000 0.616 0.629   0.321  0.073
+deepseek-r1-abl-llama_8b               qwen3_1.7b 3000 0.616 0.457   0.278  0.119
+deepseek-r1-abl-llama_8b                qwen3_14b 3000 0.616 0.854   0.395  0.119
+deepseek-r1-abl-llama_8b                 qwen3_4b 3000 0.616 0.768   0.292  0.027
+deepseek-r1-abl-llama_8b                 qwen3_8b 3000 0.616 0.816   0.368  0.097
+     deepseek-r1-abl_14b       deepseek-r1-abl_7b 3000 0.751 0.471   0.321  0.138
+     deepseek-r1-abl_14b         deepseek-r1_1.5b 3000 0.751 0.312   0.183  0.088
+     deepseek-r1-abl_14b           deepseek-r1_7b 3000 0.751 0.529   0.342  0.127
+     deepseek-r1-abl_14b           deepseek-r1_8b 3000 0.751 0.756   0.357  0.018
+     deepseek-r1-abl_14b phi4-mini-reasoning_3.8b 3000 0.751 0.603   0.286  0.030
+     deepseek-r1-abl_14b       phi4-reasoning_14b 3000 0.751 0.815   0.423  0.077
+     deepseek-r1-abl_14b   qwen2.5-openthinker_7b 3000 0.751 0.678   0.291 -0.007
+     deepseek-r1-abl_14b  qwen2.5-smallthinker_3b 3000 0.751 0.629   0.347  0.076
+     deepseek-r1-abl_14b               qwen3_1.7b 3000 0.751 0.457   0.261  0.086
+     deepseek-r1-abl_14b                qwen3_14b 3000 0.751 0.854   0.397  0.046
+     deepseek-r1-abl_14b                 qwen3_4b 3000 0.751 0.768   0.328 -0.013
+     deepseek-r1-abl_14b                 qwen3_8b 3000 0.751 0.816   0.415  0.069
+      deepseek-r1-abl_7b         deepseek-r1_1.5b 3000 0.471 0.312   0.168  0.108
+      deepseek-r1-abl_7b          deepseek-r1_14b 3000 0.471 0.803   0.276  0.087
+      deepseek-r1-abl_7b           deepseek-r1_8b 3000 0.471 0.756   0.246  0.062
+      deepseek-r1-abl_7b phi4-mini-reasoning_3.8b 3000 0.471 0.603   0.232  0.067
+      deepseek-r1-abl_7b       phi4-reasoning_14b 3000 0.471 0.815   0.323  0.131
+      deepseek-r1-abl_7b   qwen2.5-openthinker_7b 3000 0.471 0.678   0.235  0.061
+      deepseek-r1-abl_7b  qwen2.5-smallthinker_3b 3000 0.471 0.629   0.303  0.135
+      deepseek-r1-abl_7b               qwen3_1.7b 3000 0.471 0.457   0.246  0.106
+      deepseek-r1-abl_7b                qwen3_14b 3000 0.471 0.854   0.312  0.116
+      deepseek-r1-abl_7b                 qwen3_4b 3000 0.471 0.768   0.244  0.058
+      deepseek-r1-abl_7b                 qwen3_8b 3000 0.471 0.816   0.310  0.119
+        deepseek-r1_1.5b          deepseek-r1_14b 3000 0.312 0.803   0.146  0.044
+        deepseek-r1_1.5b           deepseek-r1_7b 3000 0.312 0.529   0.181  0.114
+        deepseek-r1_1.5b           deepseek-r1_8b 3000 0.312 0.756   0.107  0.011
+        deepseek-r1_1.5b phi4-mini-reasoning_3.8b 3000 0.312 0.603   0.098  0.021
+        deepseek-r1_1.5b       phi4-reasoning_14b 3000 0.312 0.815   0.135  0.032
+        deepseek-r1_1.5b   qwen2.5-openthinker_7b 3000 0.312 0.678   0.091  0.005
+        deepseek-r1_1.5b  qwen2.5-smallthinker_3b 3000 0.312 0.629   0.177  0.097
+        deepseek-r1_1.5b               qwen3_1.7b 3000 0.312 0.457   0.158  0.099
+        deepseek-r1_1.5b                qwen3_14b 3000 0.312 0.854   0.139  0.031
+        deepseek-r1_1.5b                 qwen3_4b 3000 0.312 0.768   0.068 -0.029
+        deepseek-r1_1.5b                 qwen3_8b 3000 0.312 0.816   0.114  0.011
+         deepseek-r1_14b           deepseek-r1_7b 3000 0.803 0.529   0.342  0.120
+         deepseek-r1_14b           deepseek-r1_8b 3000 0.803 0.756   0.427  0.079
+         deepseek-r1_14b phi4-mini-reasoning_3.8b 3000 0.803 0.603   0.333  0.071
+         deepseek-r1_14b       phi4-reasoning_14b 3000 0.803 0.815   0.436  0.061
+         deepseek-r1_14b   qwen2.5-openthinker_7b 3000 0.803 0.678   0.368  0.064
+         deepseek-r1_14b  qwen2.5-smallthinker_3b 3000 0.803 0.629   0.400  0.123
+         deepseek-r1_14b               qwen3_1.7b 3000 0.803 0.457   0.257  0.075
+         deepseek-r1_14b                qwen3_14b 3000 0.803 0.854   0.464  0.084
+         deepseek-r1_14b                 qwen3_4b 3000 0.803 0.768   0.406  0.051
+         deepseek-r1_14b                 qwen3_8b 3000 0.803 0.816   0.476  0.101
+          deepseek-r1_7b           deepseek-r1_8b 3000 0.529 0.756   0.344  0.128
+          deepseek-r1_7b phi4-mini-reasoning_3.8b 3000 0.529 0.603   0.257  0.060
+          deepseek-r1_7b       phi4-reasoning_14b 3000 0.529 0.815   0.383  0.160
+          deepseek-r1_7b   qwen2.5-openthinker_7b 3000 0.529 0.678   0.280  0.074
+          deepseek-r1_7b  qwen2.5-smallthinker_3b 3000 0.529 0.629   0.304  0.104
+          deepseek-r1_7b               qwen3_1.7b 3000 0.529 0.457   0.255  0.107
+          deepseek-r1_7b                qwen3_14b 3000 0.529 0.854   0.357  0.129
+          deepseek-r1_7b                 qwen3_4b 3000 0.529 0.768   0.292  0.074
+          deepseek-r1_7b                 qwen3_8b 3000 0.529 0.816   0.349  0.126
+          deepseek-r1_8b phi4-mini-reasoning_3.8b 3000 0.756 0.603   0.285  0.028
+          deepseek-r1_8b       phi4-reasoning_14b 3000 0.756 0.815   0.457  0.107
+          deepseek-r1_8b   qwen2.5-openthinker_7b 3000 0.756 0.678   0.351  0.052
+          deepseek-r1_8b  qwen2.5-smallthinker_3b 3000 0.756 0.629   0.330  0.059
+          deepseek-r1_8b               qwen3_1.7b 3000 0.756 0.457   0.229  0.053
+          deepseek-r1_8b                qwen3_14b 3000 0.756 0.854   0.442  0.088
+          deepseek-r1_8b                 qwen3_4b 3000 0.756 0.768   0.391  0.047
+          deepseek-r1_8b                 qwen3_8b 3000 0.756 0.816   0.466  0.117
+phi4-mini-reasoning_3.8b       phi4-reasoning_14b 3000 0.603 0.815   0.341  0.077
+phi4-mini-reasoning_3.8b   qwen2.5-openthinker_7b 3000 0.603 0.678   0.236 -0.011
+phi4-mini-reasoning_3.8b  qwen2.5-smallthinker_3b 3000 0.603 0.629   0.235 -0.006
+phi4-mini-reasoning_3.8b               qwen3_1.7b 3000 0.603 0.457   0.202  0.045
+phi4-mini-reasoning_3.8b                qwen3_14b 3000 0.603 0.854   0.283  0.014
+phi4-mini-reasoning_3.8b                 qwen3_4b 3000 0.603 0.768   0.268  0.009
+phi4-mini-reasoning_3.8b                 qwen3_8b 3000 0.603 0.816   0.308  0.044
+      phi4-reasoning_14b   qwen2.5-openthinker_7b 3000 0.815 0.678   0.371  0.065
+      phi4-reasoning_14b  qwen2.5-smallthinker_3b 3000 0.815 0.629   0.359  0.080
+      phi4-reasoning_14b               qwen3_1.7b 3000 0.815 0.457   0.292  0.108
+      phi4-reasoning_14b                qwen3_14b 3000 0.815 0.854   0.521  0.135
+      phi4-reasoning_14b                 qwen3_4b 3000 0.815 0.768   0.445  0.090
+      phi4-reasoning_14b                 qwen3_8b 3000 0.815 0.816   0.507  0.125
+  qwen2.5-openthinker_7b  qwen2.5-smallthinker_3b 3000 0.678 0.629   0.257 -0.004
+  qwen2.5-openthinker_7b               qwen3_1.7b 3000 0.678 0.457   0.225  0.058
+  qwen2.5-openthinker_7b                qwen3_14b 3000 0.678 0.854   0.391  0.080
+  qwen2.5-openthinker_7b                 qwen3_4b 3000 0.678 0.768   0.334  0.034
+  qwen2.5-openthinker_7b                 qwen3_8b 3000 0.678 0.816   0.375  0.069
+ qwen2.5-smallthinker_3b               qwen3_1.7b 3000 0.629 0.457   0.233  0.073
+ qwen2.5-smallthinker_3b                qwen3_14b 3000 0.629 0.854   0.370  0.087
+ qwen2.5-smallthinker_3b                 qwen3_4b 3000 0.629 0.768   0.277  0.004
+ qwen2.5-smallthinker_3b                 qwen3_8b 3000 0.629 0.816   0.347  0.068
+              qwen3_1.7b                qwen3_14b 3000 0.457 0.854   0.310  0.122
+              qwen3_1.7b                 qwen3_4b 3000 0.457 0.768   0.222  0.044
+              qwen3_1.7b                 qwen3_8b 3000 0.457 0.816   0.277  0.094
+               qwen3_14b                 qwen3_4b 3000 0.854 0.768   0.440  0.080
+               qwen3_14b                 qwen3_8b 3000 0.854 0.816   0.478  0.091
+                qwen3_4b                 qwen3_8b 3000 0.768 0.816   0.422  0.066
+
+(note: the accuracy fit for the residuals above excludes variant-parent pairs)
+
+== identification per model, 44 models, k=10 random probes (reference runs 0-4, probes 5-9) ==
+                   model  acc_id        top_confusion  conf_share  conf_to_reasoning
+ qwen2.5-smallthinker_3b   0.145  deepseek-r1-abl_14b       0.036              0.353
+    mistral-nemo-abl_12b   0.213     mistral-nemo_12b       0.138              0.191
+     deepseek-r1-abl_14b   0.235      deepseek-r1_14b       0.093              0.288
+      phi4-reasoning_14b   0.245             qwen3_8b       0.069              0.291
+        deepseek-r1_1.5b   0.259           qwen3_1.7b       0.061              0.294
+deepseek-r1-abl-llama_8b   0.261           qwen3_1.7b       0.039              0.367
+          deepseek-r1_7b   0.265   deepseek-r1-abl_7b       0.153              0.428
+          deepseek-r1_8b   0.267             qwen3_8b       0.090              0.346
+      deepseek-r1-abl_7b   0.286       deepseek-r1_7b       0.193              0.418
+                phi3_14b   0.298           gemma3_12b       0.091              0.188
+         deepseek-r1_14b   0.299          qwen2.5_14b       0.068              0.255
+phi4-mini-reasoning_3.8b   0.325       deepseek-r1_8b       0.036              0.305
+       mistral-small_22b   0.337           gemma3_12b       0.080              0.159
+         llama3.2-abl_3b   0.341          llama3.2_3b       0.227              0.103
+  qwen2.5-openthinker_7b   0.352   phi4-reasoning_14b       0.045              0.329
+               qwen3_14b   0.384           gemma3_27b       0.107              0.144
+        mistral-nemo_12b   0.401 mistral-nemo-abl_12b       0.079              0.133
+                qwen3_8b   0.404           gemma3_27b       0.066              0.205
+             llama3.1_8b   0.452      llama3.1-abl_8b       0.059              0.126
+              falcon3_7b   0.453       falcon3-abl_7b       0.199              0.101
+             llama3.2_3b   0.462      llama3.2-abl_3b       0.197              0.093
+                phi4_14b   0.486           gemma3_27b       0.113              0.099
+                qwen3_4b   0.491   phi4-reasoning_14b       0.054              0.200
+             falcon3_10b   0.517      falcon3-abl_10b       0.300              0.039
+          falcon3-abl_7b   0.536           falcon3_7b       0.151              0.073
+          phi4-mini_3.8b   0.563           falcon3_7b       0.023              0.117
+              mistral_7b   0.568       mistral-abl_7b       0.370              0.018
+          mistral-abl_7b   0.568           mistral_7b       0.385              0.017
+               phi3_3.8b   0.628            gemma3_1b       0.040              0.123
+              qwen3_1.7b   0.632   deepseek-r1-abl_7b       0.032              0.191
+             qwen2.5_14b   0.663           gemma3_12b       0.093              0.020
+              gemma3_27b   0.780           gemma3_12b       0.101              0.017
+         llama3.1-abl_8b   0.784          llama3.1_8b       0.019              0.044
+         falcon3-abl_10b   0.809          falcon3_10b       0.087              0.019
+              qwen2.5_7b   0.839           gemma3_27b       0.027              0.026
+              falcon3_3b   0.840       falcon3-abl_3b       0.088              0.017
+             llama3.2_1b   0.865      llama3.2-abl_3b       0.017              0.022
+              falcon3_1b   0.877           falcon3_3b       0.020              0.028
+              gemma3_12b   0.889      falcon3-abl_10b       0.040              0.017
+              qwen2.5_3b   0.913           gemma3_27b       0.007              0.019
+          falcon3-abl_3b   0.914           falcon3_3b       0.038              0.008
+            qwen2.5_1.5b   0.914           qwen2.5_3b       0.010              0.023
+               gemma3_4b   0.968           gemma3_12b       0.006              0.007
+               gemma3_1b   0.999       mistral-abl_7b       0.001              0.000

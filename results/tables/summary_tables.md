@@ -8,10 +8,10 @@
 | gemma3:12b        | gemma       | False       |      3000 |         0.811 |          0.963 |         0.000 |              0.828 |               0.844 |                        0.897 |                      0.441 |
 | gemma3:4b         | gemma       | False       |      3000 |         0.549 |          0.908 |         0.000 |              0.558 |               0.630 |                        0.729 |                      0.501 |
 | gemma3:1b         | gemma       | False       |      3000 |         0.271 |          0.782 |         0.004 |              0.268 |               0.278 |                        0.453 |                      0.818 |
-| phi3:14b          | phi         | False       |      3000 |         0.844 |          0.557 |         0.001 |              0.858 |               0.898 |                        0.852 |                      0.430 |
 | phi4:14b          | phi         | False       |      3000 |         0.849 |          0.806 |         0.000 |              0.872 |               0.864 |                        0.912 |                      0.435 |
-| phi3:3.8b         | phi         | False       |      3000 |         0.428 |          0.125 |         0.025 |              0.432 |             nan     |                      nan     |                    nan     |
+| phi3:14b          | phi         | False       |      3000 |         0.844 |          0.557 |         0.001 |              0.858 |               0.898 |                        0.852 |                      0.430 |
 | phi4-mini:3.8b    | phi         | False       |      3000 |         0.590 |          0.331 |         0.002 |              0.610 |               0.660 |                        0.687 |                      0.463 |
+| phi3:3.8b         | phi         | False       |      3000 |         0.428 |          0.125 |         0.024 |              0.432 |               0.504 |                        0.511 |                      0.548 |
 | llama3.1:8b       | llama       | False       |      3000 |         0.627 |          0.310 |         0.002 |              0.664 |               0.720 |                        0.684 |                      0.472 |
 | llama3.2:3b       | llama       | False       |      3000 |         0.394 |          0.078 |         0.037 |              0.412 |               0.476 |                        0.468 |                      0.495 |
 | llama3.2:1b       | llama       | False       |      3000 |         0.250 |          0.153 |         0.006 |              0.218 |               0.256 |                        0.430 |                      0.714 |
@@ -20,9 +20,9 @@
 | qwen2.5:3b        | qwen2.5     | False       |      3000 |         0.604 |          0.691 |         0.000 |              0.584 |               0.672 |                        0.702 |                      0.504 |
 | qwen2.5:1.5b      | qwen2.5     | False       |      3000 |         0.514 |          0.609 |         0.000 |              0.544 |               0.582 |                        0.689 |                      0.534 |
 | qwen3:14b         | qwen3       | True        |      3000 |         0.854 |          0.781 |         0.000 |              0.862 |               0.872 |                        0.922 |                      0.427 |
-| qwen3:8b          | qwen3       | True        |      3000 |         0.816 |          0.733 |         0.000 |              0.810 |             nan     |                      nan     |                    nan     |
-| qwen3:4b          | qwen3       | True        |      2795 |       nan     |        nan     |       nan     |              0.768 |             nan     |                      nan     |                    nan     |
-| qwen3:1.7b        | qwen3       | True        |         0 |       nan     |        nan     |       nan     |              0.450 |             nan     |                      nan     |                    nan     |
+| qwen3:8b          | qwen3       | True        |      3000 |         0.816 |          0.733 |         0.000 |              0.810 |               0.826 |                        0.892 |                      0.433 |
+| qwen3:4b          | qwen3       | True        |      3000 |         0.768 |          0.610 |         0.000 |              0.768 |               0.800 |                        0.811 |                      0.419 |
+| qwen3:1.7b        | qwen3       | True        |      3000 |         0.457 |          0.207 |         0.002 |              0.450 |               0.504 |                        0.638 |                      0.492 |
 | falcon3:10b       | falcon      | False       |      3000 |         0.790 |          0.826 |         0.000 |              0.808 |               0.802 |                        0.867 |                      0.449 |
 | falcon3:7b        | falcon      | False       |      3000 |         0.737 |          0.569 |         0.001 |              0.752 |               0.786 |                        0.812 |                      0.454 |
 | falcon3:3b        | falcon      | False       |      3000 |         0.440 |          0.455 |         0.001 |              0.472 |               0.540 |                        0.619 |                      0.561 |
@@ -30,36 +30,36 @@
 | mistral-small:22b | mistral     | False       |      3000 |         0.773 |          0.482 |         0.000 |              0.798 |               0.838 |                        0.795 |                      0.445 |
 | mistral-nemo:12b  | mistral     | False       |      3000 |         0.686 |          0.374 |         0.000 |              0.682 |               0.776 |                        0.717 |                      0.477 |
 | mistral:7b        | mistral     | False       |      3000 |         0.543 |          0.681 |         0.001 |              0.562 |               0.650 |                        0.690 |                      0.578 |
-| deepseek-r1:14b   | deepseek-r1 | True        |      3000 |         0.803 |          0.561 |         0.000 |              0.828 |             nan     |                      nan     |                    nan     |
-| deepseek-r1:8b    | deepseek-r1 | True        |      3000 |         0.753 |          0.334 |         0.040 |              0.758 |             nan     |                      nan     |                    nan     |
-| deepseek-r1:7b    | deepseek-r1 | True        |      3000 |         0.529 |          0.113 |         0.002 |              0.530 |             nan     |                      nan     |                    nan     |
-| deepseek-r1:1.5b  | deepseek-r1 | True        |      3000 |         0.312 |          0.013 |         0.059 |              0.312 |             nan     |                      nan     |                    nan     |
+| deepseek-r1:14b   | deepseek-r1 | True        |      3000 |         0.803 |          0.561 |         0.000 |              0.828 |               0.860 |                        0.858 |                      0.430 |
+| deepseek-r1:8b    | deepseek-r1 | True        |      3000 |         0.756 |          0.366 |         0.000 |              0.758 |               0.780 |                        0.748 |                      0.416 |
+| deepseek-r1:7b    | deepseek-r1 | True        |      3000 |         0.529 |          0.113 |         0.002 |              0.530 |               0.546 |                        0.653 |                      0.432 |
+| deepseek-r1:1.5b  | deepseek-r1 | True        |      3000 |         0.312 |          0.013 |         0.059 |              0.312 |               0.292 |                        0.465 |                      0.423 |
 
 ## Identification (top-1 accuracy; reference runs 0-4, probe runs 5-9)
 
 | set                                      |   k |   all_answers |   wrong_answers_only |   chance |
 |:-----------------------------------------|----:|--------------:|---------------------:|---------:|
-| clean 3k (28 models)                     |   1 |         0.122 |                0.193 |    0.036 |
-| clean 3k (28 models)                     |   3 |         0.314 |                0.477 |    0.036 |
-| clean 3k (28 models)                     |   5 |         0.457 |                0.624 |    0.036 |
-| clean 3k (28 models)                     |  10 |         0.672 |                0.789 |    0.036 |
-| clean 3k (28 models)                     |  20 |         0.838 |                0.913 |    0.036 |
-| clean 3k (28 models)                     |  50 |         0.962 |                0.978 |    0.036 |
-| held-out 500 (30 models)                 |   1 |         0.114 |                0.174 |    0.033 |
-| held-out 500 (30 models)                 |   3 |         0.296 |                0.447 |    0.033 |
-| held-out 500 (30 models)                 |   5 |         0.430 |                0.593 |    0.033 |
-| held-out 500 (30 models)                 |  10 |         0.643 |                0.762 |    0.033 |
-| held-out 500 (30 models)                 |  20 |         0.820 |                0.893 |    0.033 |
-| held-out 500 (30 models)                 |  50 |         0.952 |                0.976 |    0.033 |
-| held-out 500, fixed order (22 models)    |   1 |         0.144 |                0.237 |    0.045 |
-| held-out 500, fixed order (22 models)    |   3 |         0.368 |                0.570 |    0.045 |
-| held-out 500, fixed order (22 models)    |   5 |         0.524 |                0.709 |    0.045 |
-| held-out 500, fixed order (22 models)    |  10 |         0.745 |                0.855 |    0.045 |
-| held-out 500, fixed order (22 models)    |  20 |         0.892 |                0.954 |    0.045 |
-| held-out 500, fixed order (22 models)    |  50 |         0.977 |                0.996 |    0.045 |
-| held-out 500, shuffled order (22 models) |   1 |         0.094 |                0.124 |    0.045 |
-| held-out 500, shuffled order (22 models) |   3 |         0.170 |                0.214 |    0.045 |
-| held-out 500, shuffled order (22 models) |   5 |         0.226 |                0.285 |    0.045 |
-| held-out 500, shuffled order (22 models) |  10 |         0.325 |                0.388 |    0.045 |
-| held-out 500, shuffled order (22 models) |  20 |         0.455 |                0.549 |    0.045 |
-| held-out 500, shuffled order (22 models) |  50 |         0.679 |                0.761 |    0.045 |
+| clean 3k (30 models)                     |   1 |         0.102 |                0.179 |    0.033 |
+| clean 3k (30 models)                     |   3 |         0.304 |                0.453 |    0.033 |
+| clean 3k (30 models)                     |   5 |         0.431 |                0.603 |    0.033 |
+| clean 3k (30 models)                     |  10 |         0.650 |                0.784 |    0.033 |
+| clean 3k (30 models)                     |  20 |         0.836 |                0.905 |    0.033 |
+| clean 3k (30 models)                     |  50 |         0.964 |                0.977 |    0.033 |
+| held-out 500 (30 models)                 |   1 |         0.110 |                0.173 |    0.033 |
+| held-out 500 (30 models)                 |   3 |         0.286 |                0.463 |    0.033 |
+| held-out 500 (30 models)                 |   5 |         0.453 |                0.604 |    0.033 |
+| held-out 500 (30 models)                 |  10 |         0.640 |                0.771 |    0.033 |
+| held-out 500 (30 models)                 |  20 |         0.835 |                0.896 |    0.033 |
+| held-out 500 (30 models)                 |  50 |         0.955 |                0.977 |    0.033 |
+| held-out 500, fixed order (30 models)    |   1 |         0.106 |                0.175 |    0.033 |
+| held-out 500, fixed order (30 models)    |   3 |         0.294 |                0.451 |    0.033 |
+| held-out 500, fixed order (30 models)    |   5 |         0.438 |                0.596 |    0.033 |
+| held-out 500, fixed order (30 models)    |  10 |         0.657 |                0.762 |    0.033 |
+| held-out 500, fixed order (30 models)    |  20 |         0.815 |                0.901 |    0.033 |
+| held-out 500, fixed order (30 models)    |  50 |         0.955 |                0.979 |    0.033 |
+| held-out 500, shuffled order (30 models) |   1 |         0.074 |                0.089 |    0.033 |
+| held-out 500, shuffled order (30 models) |   3 |         0.134 |                0.166 |    0.033 |
+| held-out 500, shuffled order (30 models) |   5 |         0.190 |                0.213 |    0.033 |
+| held-out 500, shuffled order (30 models) |  10 |         0.274 |                0.339 |    0.033 |
+| held-out 500, shuffled order (30 models) |  20 |         0.398 |                0.490 |    0.033 |
+| held-out 500, shuffled order (30 models) |  50 |         0.636 |                0.708 |    0.033 |

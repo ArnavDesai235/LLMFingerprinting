@@ -1,0 +1,85 @@
+44 models x 3000 questions (clean HellaSwag)
+
+== Profile ==
+                           mode_acc  acc_wikihow  acc_activitynet  unparsed  unanimous  pick0  pick1  pick2  pick3
+model                                                                                                            
+qwen2.5_14b                  0.881        0.944            0.750     0.001      0.964  0.241  0.246  0.253  0.260
+qwen3_14b                    0.854        0.904            0.748     0.000      0.781  0.256  0.231  0.253  0.260
+gemma3_27b                   0.851        0.927            0.692     0.000      0.972  0.238  0.242  0.265  0.254
+phi4_14b                     0.849        0.919            0.703     0.000      0.806  0.222  0.258  0.265  0.255
+phi3_14b                     0.844        0.899            0.729     0.001      0.557  0.262  0.240  0.259  0.240
+qwen3_8b                     0.816        0.864            0.714     0.000      0.733  0.266  0.220  0.248  0.267
+phi4-reasoning_14b           0.815        0.850            0.741     0.012      0.546  0.245  0.220  0.254  0.280
+gemma3_12b                   0.811        0.890            0.646     0.000      0.963  0.229  0.263  0.262  0.245
+deepseek-r1_14b              0.803        0.849            0.705     0.000      0.561  0.267  0.258  0.245  0.230
+falcon3-abl_10b              0.797        0.873            0.639     0.000      0.898  0.231  0.233  0.265  0.271
+falcon3_10b                  0.790        0.863            0.637     0.000      0.826  0.203  0.254  0.279  0.263
+mistral-small_22b            0.773        0.846            0.618     0.000      0.482  0.192  0.301  0.280  0.227
+qwen3_4b                     0.768        0.803            0.696     0.000      0.610  0.224  0.208  0.261  0.307
+deepseek-r1_8b               0.756        0.802            0.662     0.000      0.366  0.262  0.217  0.279  0.243
+deepseek-r1-abl_14b          0.751        0.786            0.677     0.003      0.330  0.278  0.278  0.216  0.228
+qwen2.5_7b                   0.745        0.779            0.673     0.000      0.889  0.386  0.224  0.209  0.181
+falcon3_7b                   0.737        0.797            0.612     0.001      0.569  0.206  0.274  0.207  0.313
+falcon3-abl_7b               0.731        0.792            0.604     0.000      0.615  0.209  0.284  0.199  0.309
+mistral-nemo-abl_12b         0.689        0.727            0.610     0.030      0.228  0.332  0.239  0.232  0.197
+mistral-nemo_12b             0.686        0.712            0.633     0.000      0.374  0.308  0.282  0.279  0.131
+qwen2.5-openthinker_7b       0.678        0.720            0.590     0.014      0.213  0.282  0.145  0.184  0.389
+qwen2.5-smallthinker_3b      0.629        0.645            0.593     0.078      0.067  0.309  0.261  0.215  0.215
+llama3.1_8b                  0.627        0.646            0.586     0.002      0.310  0.244  0.340  0.195  0.221
+deepseek-r1-abl-llama_8b     0.616        0.632            0.582     0.002      0.176  0.258  0.225  0.227  0.289
+qwen2.5_3b                   0.604        0.623            0.564     0.000      0.691  0.360  0.224  0.188  0.229
+phi4-mini-reasoning_3.8b     0.603        0.631            0.544     0.049      0.124  0.255  0.240  0.236  0.269
+phi4-mini_3.8b               0.590        0.619            0.528     0.002      0.331  0.240  0.342  0.209  0.210
+llama3.1-abl_8b              0.577        0.613            0.502     0.000      0.582  0.310  0.347  0.167  0.175
+gemma3_4b                    0.549        0.563            0.519     0.000      0.908  0.293  0.311  0.222  0.175
+mistral_7b                   0.543        0.549            0.529     0.000      0.681  0.511  0.244  0.118  0.127
+falcon3-abl_3b               0.532        0.581            0.428     0.001      0.714  0.116  0.376  0.215  0.293
+deepseek-r1_7b               0.529        0.529            0.528     0.002      0.113  0.274  0.251  0.244  0.231
+mistral-abl_7b               0.525        0.524            0.525     0.000      0.675  0.517  0.240  0.113  0.129
+qwen2.5_1.5b                 0.514        0.534            0.473     0.000      0.609  0.243  0.215  0.128  0.414
+deepseek-r1-abl_7b           0.471        0.457            0.499     0.003      0.093  0.269  0.263  0.248  0.221
+qwen3_1.7b                   0.457        0.436            0.501     0.002      0.207  0.293  0.171  0.188  0.348
+falcon3_3b                   0.440        0.477            0.364     0.001      0.455  0.030  0.399  0.210  0.361
+phi3_3.8b                    0.428        0.400            0.485     0.024      0.125  0.060  0.163  0.294  0.483
+llama3.2_3b                  0.394        0.360            0.466     0.037      0.078  0.205  0.247  0.403  0.145
+llama3.2-abl_3b              0.387        0.344            0.477     0.005      0.036  0.209  0.301  0.365  0.126
+deepseek-r1_1.5b             0.312        0.283            0.373     0.059      0.013  0.287  0.247  0.228  0.239
+falcon3_1b                   0.307        0.302            0.316     0.001      0.199  0.110  0.365  0.243  0.282
+gemma3_1b                    0.271        0.255            0.303     0.004      0.782  0.145  0.026  0.066  0.763
+llama3.2_1b                  0.250        0.246            0.259     0.006      0.153  0.499  0.190  0.237  0.073
+
+== Identification among 44 models (chance 0.023) ==
+    full_answers  errors_only  correct_only
+1          0.074        0.104         0.032
+3          0.219        0.349         0.053
+5          0.350        0.477         0.067
+10         0.544        0.650         0.116
+20         0.720        0.798         0.182
+50         0.882        0.907         0.273
+
+== Pairwise similarity (mean over pairs) ==
+      agree  err_agree  kappa   capa
+mean  0.532      0.545  0.209  0.150
+min   0.125      0.181 -0.222 -0.105
+max   0.914      0.943  0.876  0.775
+err_agree vs chance (1/3 if wrong answers were random): 0.545
+
+== Size vs family (OLS over 933 pairs; 13 variant-parent pairs excluded; family p-value by permuting family labels) ==
+agree      R2=0.709  coefs={'intercept': np.float64(0.2433), 'same_family': np.float64(0.0517), 'log_min_size': np.float64(0.1922), 'abs_log_ratio': np.float64(0.0343)}  family_coef=0.0517 perm_p=0.000
+err_agree  R2=0.594  coefs={'intercept': np.float64(0.3437), 'same_family': np.float64(0.0607), 'log_min_size': np.float64(0.1288), 'abs_log_ratio': np.float64(0.0274)}  family_coef=0.0607 perm_p=0.000
+kappa      R2=0.544  coefs={'intercept': np.float64(0.0674), 'same_family': np.float64(0.0498), 'log_min_size': np.float64(0.11), 'abs_log_ratio': np.float64(-0.01)}  family_coef=0.0498 perm_p=0.000
+capa       R2=0.52  coefs={'intercept': np.float64(0.0324), 'same_family': np.float64(0.0395), 'log_min_size': np.float64(0.0852), 'abs_log_ratio': np.float64(0.0005)}  family_coef=0.0395 perm_p=0.000
+capa + mean_acc control: R2=0.657 coefs={'intercept': np.float64(-0.1379), 'same_family': np.float64(0.025), 'log_min_size': np.float64(-0.014), 'abs_log_ratio': np.float64(-0.0473), 'mean_acc': np.float64(0.5509)}
+
+== Question selection by mutual information (top 200 vs random) ==
+    random  top_mi
+3    0.219   0.337
+5    0.348   0.496
+10   0.537   0.698
+20   0.718   0.850
+
+== Open-set with per-model calibrated thresholds (5th percentile) ==
+    known_correct_and_accepted  unknown_rejected
+10                       0.527             0.250
+20                       0.690             0.435
+50                       0.838             0.671

@@ -7,9 +7,8 @@ Protocol: reference profile = runs 0-4, probe answers = runs 5-9 (disjoint sampl
 import glob, json, os, re, sys
 import numpy as np
 import pandas as pd
-
-FAM = ["deepseek", "gemma", "llama", "phi", "falcon", "qwen", "mistral"]
-family = lambda m: next(f for f in FAM if m.startswith(f))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "main"))
+from labels import fam as family, twin  # family = first letters of the name (qwen2.5+qwen3 = qwen, R1 distills = deepseek)
 size = lambda m: float(re.search(r"_([\d.]+)b$", m).group(1))
 K = 5  # 0-3 + unparsed(4)
 
@@ -22,11 +21,11 @@ def load(d, data_csv):
         a = np.full((len(ds), 10), -9)
         for line in open(f):
             r = json.loads(line)
-            if len(r["choices"]) == 10 and -1 not in r["choices"]:
-                a[pos[r["index"]]] = r["choices"]
+            if len(r["choices"]) == 10:   # last line per index wins; failed runs (-1) count as unparsed (until Nov 19
+                a[pos[r["index"]]] = r["choices"]   # a row with any -1 was dropped, which excluded the whole model)
         if (a[:, 0] == -9).any():
             continue
-        M[os.path.basename(f)[:-len(".csv.jsonl")]] = np.where(a == -2, 4, a)
+        M[os.path.basename(f)[:-len(".csv.jsonl")]] = np.where((a >= 0) & (a < 4), a, 4)
     return M, ds["label"].to_numpy(), ds["source_id"].str.split("~").str[0].to_numpy()
 
 
@@ -101,7 +100,7 @@ def pair_metrics(M, y):
             qa, qb = pc[a].mean(), pc[b].mean()
             cexp = qa * qb + (1 - qa) * (1 - qb) / 3
             capa = (cobs - cexp) / (1 - cexp)
-            rows.append(dict(a=a, b=b, same_family=int(family(a) == family(b)),
+            rows.append(dict(a=a, b=b, same_family=int(family(a) == family(b)), twin=twin(a, b),
                              log_min_size=np.log(min(size(a), size(b))),
                              abs_log_ratio=abs(np.log(size(a) / size(b))),
                              mean_acc=(pa + pb) / 2, agree=agree, err_agree=err_agree,
@@ -201,13 +200,15 @@ def main():
     print("\n== Pairwise similarity (mean over pairs) ==")
     print(D[["agree", "err_agree", "kappa", "capa"]].describe().loc[["mean", "min", "max"]].round(3).to_string())
     print("err_agree vs chance (1/3 if wrong answers were random):", round(D.err_agree.mean(), 3))
-    print("\n== Size vs family (OLS over pairs; family p-value by permuting family labels) ==")
+    DR = D[~D.twin].reset_index(drop=True)   # variant-parent pairs (near-copies) are left out of the family regressions
+    print(f"\n== Size vs family (OLS over {len(DR)} pairs{'; ' + str(D.twin.sum()) + ' variant-parent pairs excluded' if D.twin.any() else ''};"
+          " family p-value by permuting family labels) ==")
     xs = ["same_family", "log_min_size", "abs_log_ratio"]
     for ycol in ["agree", "err_agree", "kappa", "capa"]:
-        b, r2 = ols(D, ycol, xs)
-        obs, p = family_perm_p(M, D, ycol, xs)
+        b, r2 = ols(DR, ycol, xs)
+        obs, p = family_perm_p(M, DR, ycol, xs)
         print(f"{ycol:10s} R2={r2}  coefs={b}  family_coef={obs:.4f} perm_p={p:.3f}")
-    b, r2 = ols(D, "capa", xs + ["mean_acc"])
+    b, r2 = ols(DR, "capa", xs + ["mean_acc"])
     print(f"capa + mean_acc control: R2={r2} coefs={b}")
 
     print("\n== Question selection by mutual information (top 200 vs random) ==")

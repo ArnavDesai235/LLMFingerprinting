@@ -1,27 +1,31 @@
 """Lineage vs reasoning: what predicts shared wrong answers once accuracy is controlled?
-Pairs over all complete models plus qwen3:14b (partial; each pair uses common rows).
+Pairs over all complete models (each pair uses common rows).
 Labels per model:
   dev     = developer family (deepseek distills are their own family; qwen3 in qwen)
-  base    = pretraining lineage (r1:1.5b/7b/14b -> qwen, r1:8b -> llama; others = dev)
-  reason  = reasoning-trained (deepseek-r1 distills, qwen3)
+  base    = pretraining lineage, labels.lineage (r1:1.5b/7b/14b -> qwen2.5, r1:8b -> qwen3 [was llama before Nov 19];
+            qwen2.5 and qwen3 together as 'qwen'); spec D uses labels.lineage_fine (qwen2.5 and qwen3 separate)
+  reason  = reasoning-trained, labels.reason (R1 distills, qwen3, reasoning fine-tunes)
+With variants (all44 set): variants get their parent's lineage; a 'twin' covariate (variant-parent pair) is added to
+every spec so near-copies do not count as lineage evidence.
 OLS: metric ~ accmin + accdiff + same_base + both_reason [+ same_dev]; p-values by permuting each label across MODELS
 (holding the other labels fixed). Also: identification confusion among the 26 complete models.
 """
 import sys, itertools; sys.path.insert(0, '.')
 exec(open(__file__.replace('a14_lineage_vs_reasoning.py', 'a13_distill.py')).read().split("out = []")[0])
 import numpy.linalg as la
-EXTRA = [m for m in ['qwen3_14b'] if m in M and len(M[m]) >= 2000]
-models = sorted(ref + dist + EXTRA)
-BASEOF = {'deepseek-r1_1.5b': 'qwen', 'deepseek-r1_7b': 'qwen', 'deepseek-r1_14b': 'qwen', 'deepseek-r1_8b': 'llama'}
-dev = {m: fam(m) for m in models}; base = {m: BASEOF.get(m, fam(m)) for m in models}
-reason = {m: int(m.startswith('deepseek') or m.startswith('qwen3')) for m in models}
-print(f'{len(models)} models; reasoning: {[m for m in models if reason[m]]}; partial: {EXTRA} ({[len(M[m]) for m in EXTRA]} rows)')
+import labels as LB
+models = sorted(set(ref + dist + [m for m in M if LB.is_variant(m) and len(M[m]) == 3000]))
+dev = {m: fam(m) for m in models}; base = {m: LB.lineage(m) for m in models}; base_fine = {m: LB.lineage_fine(m) for m in models}
+reason = {m: int(LB.reason(m)) for m in models}
+print(f'{len(models)} models; reasoning: {[m for m in models if reason[m]]}')
 P = pd.DataFrame([stats(a, b, rows(a, b)) for a, b in itertools.combinations(models, 2)])
 pairs = list(zip(P.a, P.b)); rng = np.random.default_rng(5)
+TWIN = np.array([float(LB.twin(a, b)) for a, b in pairs]); HAS_TWIN = TWIN.any()
+if HAS_TWIN: print(f'{int(TWIN.sum())} variant-parent pairs get their own covariate (twin)')
 def lab(d): return np.array([float(d[a] == d[b]) for a, b in pairs])
 def both(d): return np.array([float(d[a] and d[b]) for a, b in pairs])
 def fit(col, cols):
-    X = np.column_stack([np.ones(len(P)), P.accmin, P.accdiff] + cols); b = la.lstsq(X, P[col], rcond=None)[0]
+    X = np.column_stack([np.ones(len(P)), P.accmin, P.accdiff] + cols + ([TWIN] if HAS_TWIN else [])); b = la.lstsq(X, P[col], rcond=None)[0]
     r2 = 1 - ((P[col] - X @ b) ** 2).sum() / ((P[col] - P[col].mean()) ** 2).sum(); return b[3:], r2
 def perm_p(col, builders, which, nperm=3000):
     obs = fit(col, [f(d) for f, d in builders])[0][which]; null = []
@@ -36,16 +40,18 @@ pd.set_option('display.width', 220)
 for spec, builders, names in [
         ('A: base lineage + both-reasoning', [(lab, base), (both, reason)], ['same_base', 'both_reason']),
         ('B: developer family + both-reasoning', [(lab, dev), (both, reason)], ['same_dev', 'both_reason']),
-        ('C: base lineage only', [(lab, base)], ['same_base'])]:
+        ('C: base lineage only', [(lab, base)], ['same_base']),
+        ('D: fine base lineage (qwen2.5 / qwen3 separate) + both-reasoning', [(lab, base_fine), (both, reason)], ['same_base_fine', 'both_reason'])]:
     print(f'\n== {spec} ==')
     for col in ['excess', 'share_p', 'co']:
         r2 = fit(col, [f(d) for f, d in builders])[1]
         s = '  '.join(f'{n} {o:+.3f} (p {p:.3f})' for n, (o, p) in zip(names, [perm_p(col, builders, k) for k in range(len(builders))]))
         print(f'  {col:8s} R2 {r2:.3f}  {s}')
 # group means of the accuracy-controlled residual
-X = np.column_stack([np.ones(len(P)), P.accmin, P.accdiff]); P['res'] = P.excess - X @ la.lstsq(X, P.excess, rcond=None)[0]
-P['grp'] = np.select([both(reason) == 1, lab(base) == 1, np.array([reason[a] != reason[b] for a, b in pairs])],
-                     ['reasoning-reasoning', 'same base lineage (non-reasoning pairs)', 'reasoning-nonreasoning'], 'unrelated')
+X = np.column_stack([np.ones(len(P)), P.accmin, P.accdiff]); nt = TWIN == 0
+P['res'] = P.excess - X @ la.lstsq(X[nt], P.excess[nt], rcond=None)[0]
+P['grp'] = np.select([TWIN == 1, both(reason) == 1, lab(base) == 1, np.array([reason[a] != reason[b] for a, b in pairs])],
+                     ['variant-parent', 'reasoning-reasoning', 'same base lineage (non-reasoning pairs)', 'reasoning-nonreasoning'], 'unrelated')
 print('\n== accuracy-controlled excess residual by pair type ==')
 print(P.groupby('grp').res.agg(['mean', 'count', 'std']).round(3).to_string())
 print('\n== reasoning-reasoning pairs ==')
@@ -53,7 +59,8 @@ print(P[P.grp == 'reasoning-reasoning'][['a', 'b', 'n', 'accA', 'accB', 'excess'
 P.to_csv('pairs_lineage_reasoning.csv', index=False)
 
 # identification confusion among complete models: where do misidentified probes go?
-full = [m for m in models if len(M[m]) == 3000]; idx = rows(*full); y = ds2.loc[idx, 'label'].to_numpy()
+full = [m for m in models if len(M[m]) == 3000]; idx = rows(*full)
+print(f'\n(note: the accuracy fit for the residuals above excludes variant-parent pairs)') if HAS_TWIN else None; y = ds2.loc[idx, 'label'].to_numpy()
 A = arr(M, full, idx)
 L = np.log((np.stack([(A[:, :, :5] == k).sum(-1) for k in range(5)], -1) + 0.5) / (5 + 2.5))   # reference = runs 0-4 only
 print(f'\n== identification per model, {len(full)} models, k=10 random probes (reference runs 0-4, probes 5-9) ==')

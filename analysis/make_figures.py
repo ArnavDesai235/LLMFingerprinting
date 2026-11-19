@@ -45,6 +45,7 @@ def load(d, csv, key='choices'):
     return M, ds.label.to_numpy(), rows
 
 V3, y3, rows3 = load(f'{FP}/v3_clean3k', f'{DATA}/hellaswag_val_clean_3k.csv')
+V3.update(load(f'{FP}/v3_clean3k_rerun8192', f'{DATA}/hellaswag_val_clean_3k.csv')[0])   # 8192-token reruns (r1:8b, qwen3:4b/1.7b)
 HO, yH, rowsH = load(f'{FP}/holdout500', f'{DATA}/hellaswag_val_clean_holdout500.csv')
 SH, _, rowsS = load(f'{FP}/shuffle500', f'{DATA}/hellaswag_val_clean_holdout500.csv')
 SL, _, _ = load(f'{FP}/shuffle500', f'{DATA}/hellaswag_val_clean_holdout500.csv', key='slots')
@@ -181,7 +182,7 @@ for i, g in enumerate(groups):
     ax.text(i + .33, v.mean(), f'{v.mean():+.3f}\n(n={len(v)})', va='center', fontsize=8, color=INK)
 ax.axhline(0, color=MUTED, lw=1); ax.set_xticks(range(4), labels); ax.grid(axis='x', visible=False)
 ax.set_ylabel('Excess same-wrong share,\naccuracy-controlled residual'); ax.set_xlim(-.5, 3.9)
-ax.set_title('Reasoning training predicts shared wrong answers more than lineage (27 models, 351 pairs)', loc='left', fontsize=11)
+ax.set_title(f'Reasoning training predicts shared wrong answers more than lineage ({len(set(LR.a) | set(LR.b))} models, {len(LR)} pairs)', loc='left', fontsize=11)
 fig.savefig(f'{FIG}/fig4_lineage_vs_reasoning.png'); plt.close(fig)
 
 # Fig 5: shuffled options, content vs position

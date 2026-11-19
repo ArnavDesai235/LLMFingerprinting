@@ -1,0 +1,56 @@
+            model  rows_3k  acc_mode_3k  acc_mode_holdout  acc_mode_shuffled
+       gemma3:27b     3000        0.851             0.854              0.886
+       gemma3:12b     3000        0.811             0.828              0.844
+        gemma3:4b     3000        0.549             0.558              0.630
+        gemma3:1b     3000        0.271             0.268              0.278
+         phi4:14b     3000        0.849             0.872              0.864
+         phi3:14b     3000        0.844             0.858              0.898
+   phi4-mini:3.8b     3000        0.590             0.610              0.660
+        phi3:3.8b     3000        0.428             0.432              0.504
+      llama3.1:8b     3000        0.627             0.664              0.720
+      llama3.2:3b     3000        0.394             0.412              0.476
+      llama3.2:1b     3000        0.250             0.218              0.256
+      qwen2.5:14b     3000        0.881             0.896              0.904
+       qwen2.5:7b     3000        0.745             0.734              0.832
+       qwen2.5:3b     3000        0.604             0.584              0.672
+     qwen2.5:1.5b     3000        0.514             0.544              0.582
+        qwen3:14b     3000        0.854             0.862              0.872
+         qwen3:8b     3000        0.816             0.810              0.826
+         qwen3:4b     3000        0.768             0.768              0.800
+       qwen3:1.7b     3000        0.457             0.450              0.504
+      falcon3:10b     3000        0.790             0.808              0.802
+       falcon3:7b     3000        0.737             0.752              0.786
+       falcon3:3b     3000        0.440             0.472              0.540
+       falcon3:1b     3000        0.307             0.336              0.340
+mistral-small:22b     3000        0.773             0.798              0.838
+ mistral-nemo:12b     3000        0.686             0.682              0.776
+       mistral:7b     3000        0.543             0.562              0.650
+  deepseek-r1:14b     3000        0.803             0.828              0.860
+   deepseek-r1:8b     3000        0.756             0.758              0.780
+   deepseek-r1:7b     3000        0.529             0.530              0.546
+ deepseek-r1:1.5b     3000        0.312             0.312              0.292
+ k  all_answers  wrong_answers_only                                      set  chance
+ 1        0.102               0.179                     clean 3k (30 models)   0.033
+ 3        0.304               0.453                     clean 3k (30 models)   0.033
+ 5        0.431               0.603                     clean 3k (30 models)   0.033
+10        0.650               0.784                     clean 3k (30 models)   0.033
+20        0.836               0.905                     clean 3k (30 models)   0.033
+50        0.964               0.977                     clean 3k (30 models)   0.033
+ 1        0.110               0.173                 held-out 500 (30 models)   0.033
+ 3        0.286               0.463                 held-out 500 (30 models)   0.033
+ 5        0.453               0.604                 held-out 500 (30 models)   0.033
+10        0.640               0.771                 held-out 500 (30 models)   0.033
+20        0.835               0.896                 held-out 500 (30 models)   0.033
+50        0.955               0.977                 held-out 500 (30 models)   0.033
+ 1        0.106               0.175    held-out 500, fixed order (30 models)   0.033
+ 3        0.294               0.451    held-out 500, fixed order (30 models)   0.033
+ 5        0.438               0.596    held-out 500, fixed order (30 models)   0.033
+10        0.657               0.762    held-out 500, fixed order (30 models)   0.033
+20        0.815               0.901    held-out 500, fixed order (30 models)   0.033
+50        0.955               0.979    held-out 500, fixed order (30 models)   0.033
+ 1        0.074               0.089 held-out 500, shuffled order (30 models)   0.033
+ 3        0.134               0.166 held-out 500, shuffled order (30 models)   0.033
+ 5        0.190               0.213 held-out 500, shuffled order (30 models)   0.033
+10        0.274               0.339 held-out 500, shuffled order (30 models)   0.033
+20        0.398               0.490 held-out 500, shuffled order (30 models)   0.033
+50        0.636               0.708 held-out 500, shuffled order (30 models)   0.033

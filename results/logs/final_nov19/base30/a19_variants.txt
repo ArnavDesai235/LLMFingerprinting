@@ -1,0 +1,135 @@
+bases: 30 (rerun-merged: [])
+variants: 14
+
+reference pairs (cross-family, not both reasoning): 377; residual SD excess 0.041, run-level 0.050
+  same-family base pairs: mean residual excess +0.046 (n=42); reasoning-reasoning pairs +0.090
+
+== 0. Accuracy, unparsed, consistency (variant vs parent) ==
+            variant         kind           parent  acc_var  acc_par  d_acc  mcnemar_p  unp_var  unp_par  unanim_var  unanim_par  mode_agree
+    falcon3-abl:10b          abl      falcon3_10b    0.797    0.790  0.007      0.196    0.000    0.000       0.898       0.826       0.895
+     falcon3-abl:7b          abl       falcon3_7b    0.731    0.737 -0.006      0.361    0.000    0.001       0.615       0.568       0.858
+     falcon3-abl:3b          abl       falcon3_3b    0.532    0.440  0.092      0.000    0.001    0.001       0.714       0.455       0.693
+         r1-abl:14b          abl  deepseek-r1_14b    0.751    0.803 -0.052      0.000    0.003    0.000       0.330       0.561       0.817
+          r1-abl:8b abl-mismatch   deepseek-r1_8b    0.616    0.756 -0.141      0.000    0.002    0.000       0.176       0.366       0.652
+          r1-abl:7b          abl   deepseek-r1_7b    0.471    0.529 -0.058      0.000    0.003    0.002       0.093       0.113       0.705
+    llama3.2-abl:3b          abl      llama3.2_3b    0.387    0.388 -0.002      0.887    0.005    0.037       0.035       0.053       0.550
+    llama3.1-abl:8b          abl      llama3.1_8b    0.577    0.627 -0.049      0.000    0.000    0.002       0.582       0.310       0.638
+       nemo-abl:12b          abl mistral-nemo_12b    0.689    0.686  0.003      0.731    0.030    0.000       0.228       0.374       0.755
+     mistral-abl:7b          abl       mistral_7b    0.525    0.543 -0.018      0.000    0.000    0.000       0.675       0.681       0.914
+     openthinker:7b           ft       qwen2.5_7b    0.678    0.745 -0.066      0.000    0.014    0.000       0.213       0.889       0.670
+    smallthinker:3b           ft       qwen2.5_3b    0.629    0.604  0.024      0.021    0.078    0.000       0.067       0.691       0.588
+ phi4-reasoning:14b           ft         phi4_14b    0.815    0.849 -0.035      0.000    0.012    0.000       0.546       0.806       0.833
+phi4-mini-reasoning           ft   phi4-mini_3.8b    0.603    0.590  0.013      0.225    0.049    0.002       0.124       0.331       0.571
+
+== 1. Error similarity to the parent vs the 29 other bases ==
+excess = same-wrong share of modes minus position-bias null; res = residual after accuracy control (cross-family fit); pct = percentile of res among cross-family base pairs.
+run-level: rl(var,parent), rl(parent self), retention = (rl_vp - rl_pred) / (rl_pp - rl_pred_pp), rl_pred from the accuracy fit.
+            variant         kind           parent  share  excess   res     pct parent_rank   nearest_other  nearest_res  rl_vp  rl_pp_self  retention
+    falcon3-abl:10b          abl      falcon3_10b  0.897   0.563 0.212 100.000        1/30      falcon3_7b        0.065  0.874       0.935      0.794
+     falcon3-abl:7b          abl       falcon3_7b  0.873   0.533 0.221 100.000        1/30  deepseek-r1_7b        0.072  0.783       0.826      0.820
+     falcon3-abl:3b          abl       falcon3_3b  0.781   0.383 0.250 100.000        1/30      falcon3_1b        0.063  0.737       0.809      0.786
+         r1-abl:14b          abl  deepseek-r1_14b  0.840   0.504 0.174 100.000        1/30  deepseek-r1_7b        0.139  0.704       0.805      0.530
+          r1-abl:8b abl-mismatch   deepseek-r1_8b  0.639   0.305 0.054  91.512        9/30       qwen3_14b        0.133  0.550       0.709      0.037
+          r1-abl:7b          abl   deepseek-r1_7b  0.780   0.441 0.293 100.000        1/30        qwen3_8b        0.131  0.588       0.618      0.989
+    llama3.2-abl:3b          abl      llama3.2_3b  0.631   0.246 0.158 100.000        1/30      falcon3_1b        0.055  0.488       0.514      0.793
+    llama3.1-abl:8b          abl      llama3.1_8b  0.674   0.323 0.106 100.000        1/30 deepseek-r1_14b        0.057  0.607       0.683      0.644
+       nemo-abl:12b          abl mistral-nemo_12b  0.711   0.365 0.082  98.939        1/30     llama3.2_1b        0.064  0.565       0.640     -0.137
+     mistral-abl:7b          abl       mistral_7b  0.943   0.485 0.305 100.000        1/30        phi3_14b        0.082  0.902       0.916      0.989
+     openthinker:7b           ft       qwen2.5_7b  0.648   0.307 0.022  70.557       10/30       qwen3_14b        0.095  0.586       0.974      0.027
+    smallthinker:3b           ft       qwen2.5_3b  0.615   0.260 0.028  75.597       16/30 deepseek-r1_14b        0.137  0.527       0.895      0.002
+ phi4-reasoning:14b           ft         phi4_14b  0.773   0.440 0.070  96.286       12/30  deepseek-r1_7b        0.173  0.721       0.866      0.338
+phi4-mini-reasoning           ft   phi4-mini_3.8b  0.572   0.239 0.018  65.782       14/30        phi4_14b        0.087  0.492       0.722     -0.112
+  abl: mean res +0.200, parent ranked #1 for 9/9, mean retention 0.69 (median 0.79)
+  ft: mean res +0.035, parent ranked #1 for 0/4, mean retention 0.06 (median 0.01)
+  r1-abl:8b vs its real pretraining base llama3.1_8b: res -0.016 (rank 24/30)
+  top-5 bases by residual for each variant:
+    falcon3-abl:10b      falcon3_10b +0.212, falcon3_7b +0.065, falcon3_3b +0.059, deepseek-r1_7b +0.047, llama3.2_3b +0.043
+    falcon3-abl:7b       falcon3_7b +0.221, deepseek-r1_7b +0.072, falcon3_10b +0.062, falcon3_3b +0.053, deepseek-r1_14b +0.049
+    falcon3-abl:3b       falcon3_3b +0.250, falcon3_1b +0.063, phi4_14b +0.058, falcon3_7b +0.055, phi4-mini_3.8b +0.044
+    r1-abl:14b           deepseek-r1_14b +0.174, deepseek-r1_7b +0.139, qwen3_1.7b +0.098, deepseek-r1_1.5b +0.098, qwen3_8b +0.084
+    r1-abl:8b            qwen3_14b +0.133, deepseek-r1_7b +0.131, qwen3_1.7b +0.128, deepseek-r1_14b +0.124, qwen3_8b +0.110
+    r1-abl:7b            deepseek-r1_7b +0.293, qwen3_8b +0.131, qwen3_14b +0.129, qwen3_1.7b +0.113, deepseek-r1_1.5b +0.112
+    llama3.2-abl:3b      llama3.2_3b +0.158, falcon3_1b +0.055, llama3.2_1b +0.049, llama3.1_8b +0.044, falcon3_10b +0.020
+    llama3.1-abl:8b      llama3.1_8b +0.106, deepseek-r1_14b +0.057, qwen3_14b +0.054, falcon3_7b +0.047, qwen3_8b +0.047
+    nemo-abl:12b         mistral-nemo_12b +0.082, llama3.2_1b +0.064, mistral_7b +0.048, gemma3_4b +0.041, deepseek-r1_1.5b +0.037
+    mistral-abl:7b       mistral_7b +0.305, phi3_14b +0.082, llama3.2_1b +0.081, qwen2.5_7b +0.071, qwen3_14b +0.055
+    openthinker:7b       qwen3_14b +0.095, deepseek-r1_7b +0.084, qwen3_8b +0.084, deepseek-r1_14b +0.078, qwen3_1.7b +0.068
+    smallthinker:3b      deepseek-r1_14b +0.137, deepseek-r1_7b +0.114, deepseek-r1_1.5b +0.104, qwen3_14b +0.101, qwen3_1.7b +0.083
+    phi4-reasoning:14b   deepseek-r1_7b +0.173, qwen3_14b +0.151, qwen3_8b +0.141, deepseek-r1_8b +0.122, qwen3_1.7b +0.121
+    phi4-mini-reasoning  phi4_14b +0.087, deepseek-r1_14b +0.084, deepseek-r1_7b +0.069, qwen3_8b +0.058, qwen3_1.7b +0.055
+
+== 2. Identification against the 30-base library (reference runs 0-4; chance 1/30) ==
+-- all answers: P(top-1 = parent) for the variant vs the parent probing itself (selfbase) --
+            variant         kind  all10_par  all10_selfbase  all20_par  all20_selfbase  all50_par  all50_selfbase  all20_fam  all20_rank            all20_mostly
+    falcon3-abl:10b          abl       0.54            0.78       0.70            0.93       0.91            1.00       0.72        1.85      falcon3_10b (0.70)
+     falcon3-abl:7b          abl       0.41            0.59       0.63            0.84       0.91            0.99       0.70        2.27       falcon3_7b (0.63)
+     falcon3-abl:3b          abl       0.53            0.91       0.71            0.99       0.90            1.00       0.78        2.60       falcon3_3b (0.71)
+         r1-abl:14b          abl       0.17            0.36       0.30            0.54       0.61            0.89       0.37        3.86  deepseek-r1_14b (0.30)
+          r1-abl:8b abl-mismatch       0.05            0.30       0.10            0.46       0.14            0.71       0.33        8.40   deepseek-r1_7b (0.13)
+          r1-abl:7b          abl       0.37            0.44       0.64            0.65       0.95            0.94       0.73        2.13   deepseek-r1_7b (0.64)
+    llama3.2-abl:3b          abl       0.42            0.62       0.61            0.88       0.89            0.99       0.69        2.53      llama3.2_3b (0.61)
+    llama3.1-abl:8b          abl       0.15            0.58       0.31            0.77       0.40            0.98       0.31        5.40      llama3.1_8b (0.31)
+       nemo-abl:12b          abl       0.20            0.47       0.40            0.69       0.61            0.95       0.46        3.88 mistral-nemo_12b (0.40)
+     mistral-abl:7b          abl       0.94            0.96       0.99            0.99       1.00            1.00       0.99        1.01       mistral_7b (0.99)
+     openthinker:7b           ft       0.04            0.85       0.06            0.98       0.05            1.00       0.13       12.68         qwen3_8b (0.11)
+    smallthinker:3b           ft       0.05            0.91       0.06            0.99       0.02            1.00       0.15       16.32   deepseek-r1_7b (0.10)
+ phi4-reasoning:14b           ft       0.08            0.55       0.13            0.79       0.17            0.98       0.19        6.05        qwen3_14b (0.17)
+phi4-mini-reasoning           ft       0.07            0.62       0.08            0.87       0.08            0.99       0.16       11.23   deepseek-r1_8b (0.11)
+-- wrong answers only: P(top-1 = parent) for the variant vs the parent probing itself (selfbase) --
+            variant         kind  err10_par  err10_selfbase  err20_par  err20_selfbase  err50_par  err50_selfbase  err20_fam  err20_rank            err20_mostly
+    falcon3-abl:10b          abl       0.77            0.99       0.94            1.00       1.00            1.00       0.97        1.12      falcon3_10b (0.94)
+     falcon3-abl:7b          abl       0.62            0.76       0.88            0.96       0.98            1.00       0.91        1.24       falcon3_7b (0.88)
+     falcon3-abl:3b          abl       0.64            0.93       0.84            0.99       0.99            1.00       0.88        1.40       falcon3_3b (0.84)
+         r1-abl:14b          abl       0.16            0.62       0.31            0.86       0.49            1.00       0.51        4.00  deepseek-r1_14b (0.31)
+          r1-abl:8b abl-mismatch       0.05            0.49       0.07            0.78       0.07            0.96       0.40        9.71   deepseek-r1_7b (0.22)
+          r1-abl:7b          abl       0.42            0.49       0.67            0.75       0.93            0.98       0.72        2.24   deepseek-r1_7b (0.67)
+    llama3.2-abl:3b          abl       0.32            0.53       0.50            0.73       0.79            0.97       0.64        3.41      llama3.2_3b (0.50)
+    llama3.1-abl:8b          abl       0.20            0.66       0.37            0.90       0.59            1.00       0.41        4.11      llama3.1_8b (0.37)
+       nemo-abl:12b          abl       0.26            0.53       0.37            0.82       0.66            0.98       0.49        3.79 mistral-nemo_12b (0.37)
+     mistral-abl:7b          abl       0.97            0.99       1.00            1.00       1.00            1.00       1.00        1.00       mistral_7b (1.00)
+     openthinker:7b           ft       0.04            0.99       0.02            1.00       0.02            1.00       0.11       14.10       qwen3_1.7b (0.17)
+    smallthinker:3b           ft       0.05            0.99       0.05            1.00       0.02            1.00       0.08       15.27   deepseek-r1_7b (0.19)
+ phi4-reasoning:14b           ft       0.02            0.78       0.01            0.96       0.00            1.00       0.10       11.23  deepseek-r1_14b (0.16)
+phi4-mini-reasoning           ft       0.08            0.76       0.13            0.95       0.12            1.00       0.15       10.57   deepseek-r1_7b (0.17)
+  abl mean: all k=20 parent 0.59 (parent self 0.81); errors k=20 0.65 (self 0.89); family-level all k=20 0.64
+  ft mean: all k=20 parent 0.08 (parent self 0.91); errors k=20 0.05 (self 0.98); family-level all k=20 0.16
+
+-- open set: variant accepted AS ITS PARENT (top-1 = parent and above the parent's 5th-pct threshold), all answers --
+            variant  k20_passes_as_parent  k50_passes_as_parent
+    falcon3-abl:10b                  0.49                  0.42
+     falcon3-abl:7b                  0.58                  0.64
+     falcon3-abl:3b                  0.48                  0.17
+         r1-abl:14b                  0.13                  0.11
+          r1-abl:8b                  0.05                  0.01
+          r1-abl:7b                  0.58                  0.77
+    llama3.2-abl:3b                  0.61                  0.64
+    llama3.1-abl:8b                  0.21                  0.27
+       nemo-abl:12b                  0.28                  0.21
+     mistral-abl:7b                  0.83                  0.79
+     openthinker:7b                  0.00                  0.00
+    smallthinker:3b                  0.00                  0.00
+ phi4-reasoning:14b                  0.04                  0.01
+phi4-mini-reasoning                  0.01                  0.00
+
+== 3. Drift: mean accuracy-controlled residual with the parent's siblings and with the reasoning cluster ==
+            variant         kind  n_sib  sib_parent  sib_variant  reasoncl_parent  reasoncl_variant  n_reason  d_sib  d_reason
+    falcon3-abl:10b          abl      3       0.049        0.052            0.017             0.004         8  0.003    -0.013
+     falcon3-abl:7b          abl      3       0.058        0.038            0.028             0.022         8 -0.020    -0.006
+     falcon3-abl:3b          abl      3       0.075        0.052            0.015             0.014         8 -0.023    -0.001
+         r1-abl:14b          abl      3       0.094        0.089            0.092             0.061         4 -0.004    -0.031
+          r1-abl:8b abl-mismatch      3       0.085        0.119            0.090             0.103         4  0.034     0.013
+          r1-abl:7b          abl      3       0.131        0.095            0.121             0.111         4 -0.036    -0.010
+    llama3.2-abl:3b          abl      2       0.050        0.047           -0.005            -0.012         8 -0.003    -0.006
+    llama3.1-abl:8b          abl      2       0.034        0.033           -0.025             0.024         8 -0.000     0.050
+       nemo-abl:12b          abl      2       0.003        0.024           -0.020            -0.019         8  0.021     0.001
+     mistral-abl:7b          abl      2      -0.010        0.002            0.021             0.020         8  0.012    -0.000
+     openthinker:7b           ft      3       0.014       -0.025            0.002             0.067         8 -0.038     0.065
+    smallthinker:3b           ft      3       0.011        0.025           -0.017             0.089         8  0.015     0.105
+ phi4-reasoning:14b           ft      3       0.044        0.062            0.045             0.117         8  0.018     0.072
+phi4-mini-reasoning           ft      3       0.049        0.025            0.054             0.048         8 -0.025    -0.006
+  abl: mean d_sib -0.006, mean d_reason -0.002
+  ft: mean d_sib -0.008, mean d_reason +0.059
+
+== 4. llama3.2:3b refusal rows (base unparsed in >=5 of 10 runs) ==
+  rows: 110; base unparsed runs there 0.92; abliterated unparsed there 0.092; abliterated mode acc there 0.455 vs elsewhere 0.384; base mode acc elsewhere 0.399
+  overall unparsed runs: base 0.037 -> abliterated 0.005
