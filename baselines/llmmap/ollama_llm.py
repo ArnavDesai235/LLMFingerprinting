@@ -30,7 +30,7 @@ class LLM_ollama:
         return msgs
 
     def generate(self, prompt, gen_kargs, max_new_tokens=MAX_NEW_TOKENS):
-        opts = {"num_predict": max_new_tokens}
+        opts = {"num_predict": max_new_tokens, "num_ctx": 4096}  # default ctx can be 131k per slot: KV cache then overflows the GPU
         t = gen_kargs.get("temperature", 0.7)
         opts["temperature"] = t if gen_kargs.get("do_sample", True) else 0.0
         if not gen_kargs.get("do_sample", True):
