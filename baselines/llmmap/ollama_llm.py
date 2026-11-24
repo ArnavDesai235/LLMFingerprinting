@@ -51,6 +51,10 @@ class LLM_ollama:
                 text = msg.get("content") or ""
                 if self.think != "raw":
                     text = _THINK.sub("", text).strip()
+                if not text.strip() and msg.get("thinking"):
+                    # model ignored think=False and spent its 100 tokens reasoning: keep that text, as LLMmap
+                    # would see the first 100 tokens of whatever the endpoint returns
+                    text = msg["thinking"]
                 return [text]
             except requests.RequestException:
                 if attempt == self.retries - 1:
