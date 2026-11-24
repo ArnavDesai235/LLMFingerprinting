@@ -11,6 +11,7 @@ pool, so LLMmap's own 'test' configs are drawn from train. We call sample_one(po
 test configurations really come from the held-out pool.
 """
 import argparse, json, os, random, sys, tqdm
+from concurrent.futures import ThreadPoolExecutor
 import requests
 from ollama_llm import LLM_ollama, HOST
 
@@ -29,6 +30,7 @@ def main():
     ap.add_argument("--n_train", type=int, default=100, help="configs per model used for its template (LLMmap default 100)")
     ap.add_argument("--n_test", type=int, default=50)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--workers", type=int, default=8, help="parallel prompt configs (match OLLAMA_NUM_PARALLEL)")
     ap.add_argument("--think", default="off", choices=["off", "raw"])
     ap.add_argument("--check", action="store_true", help="only verify that every tag exists in Ollama")
     a = ap.parse_args()
@@ -60,16 +62,20 @@ def main():
                 e = json.loads(line); done.add((e["dataset"], e["conf_id"]))
         llm = LLM_ollama(m["label"], m["tag"], reasoning=m.get("reasoning", False), think=a.think)
         jobs = [(TRAIN, i, c) for i, c in enumerate(train)] + [(TEST, i, c) for i, c in enumerate(test)]
-        with open(path, "a", encoding="utf-8") as f:
-            for pool, i, conf in tqdm.tqdm(jobs, desc=m["label"]):
-                if (pool, i) in done:
-                    continue
-                traces = []
-                for q in queries:
-                    prompt, hp = conf(q, llm)
-                    traces.append((q, llm.generate(prompt, dict(hp))[0]))
-                f.write(json.dumps({"dataset": pool, "conf_id": i, "llm": m["label"], "traces": traces,
-                                    "prompt_conf": conf.to_dict()}) + "\n"); f.flush()
+        jobs = [j for j in jobs if (j[0], j[1]) not in done]
+
+        def run(job):
+            pool, i, conf = job
+            traces = []
+            for q in queries:
+                prompt, hp = conf(q, llm)
+                traces.append((q, llm.generate(prompt, dict(hp))[0]))
+            return {"dataset": pool, "conf_id": i, "llm": m["label"], "traces": traces,
+                    "prompt_conf": conf.to_dict()}
+
+        with open(path, "a", encoding="utf-8") as f, ThreadPoolExecutor(a.workers) as ex:
+            for entry in tqdm.tqdm(ex.map(run, jobs), total=len(jobs), desc=m["label"]):
+                f.write(json.dumps(entry) + "\n"); f.flush()
 
 if __name__ == "__main__":
     main()
