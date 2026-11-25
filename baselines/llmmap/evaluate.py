@@ -81,6 +81,9 @@ def pick_arm(traces_dir, label, preferred, max_empty=0.5):
 
 def embed_all(llmmap_home, model_dir, labels, traces_dir, suffix_pref, cache, device):
     sys.path.insert(0, llmmap_home)
+    import torch
+    _load = torch.load   # the pretrained weights were saved from an Apple 'mps' device: load onto CPU first
+    torch.load = lambda *a, **k: _load(*a, **{"map_location": "cpu", **k})
     from LLMmap.inference import load_LLMmap, InferenceModel
     conf, inf = load_LLMmap(model_dir, device=device, verbose=False)
     assert conf["is_open"]
