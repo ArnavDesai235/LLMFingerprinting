@@ -63,7 +63,23 @@ def variants_vs_base(emb, T, tau, base_labels, variants):
 
 
 # ----------------------------------------------------------------------------- embedding (needs torch)
-def embed_all(llmmap_home, model_dir, labels, traces_dir, suffix, cache, device):
+def pick_arm(traces_dir, label, preferred, max_empty=0.5):
+    """Use the preferred arm unless it is mostly empty answers and a 'raw' run exists (e.g. openthinker)."""
+    def empty_frac(arm):
+        f = os.path.join(traces_dir, f"{label}{arm}.jsonl")
+        if not os.path.exists(f): return None
+        tot = emp = 0
+        for line in open(f):
+            for _, a in json.loads(line)["traces"]:
+                tot += 1; emp += (not a.strip())
+        return emp / max(tot, 1)
+    e = empty_frac(preferred)
+    if e is not None and e <= max_empty: return preferred
+    r = empty_frac("raw")
+    if r is not None and r < (e if e is not None else 1.0): return "raw"
+    return preferred if e is not None else None
+
+def embed_all(llmmap_home, model_dir, labels, traces_dir, suffix_pref, cache, device):
     sys.path.insert(0, llmmap_home)
     from LLMmap.inference import load_LLMmap, InferenceModel
     conf, inf = load_LLMmap(model_dir, device=device, verbose=False)
@@ -71,6 +87,8 @@ def embed_all(llmmap_home, model_dir, labels, traces_dir, suffix, cache, device)
     queries = conf["queries"]
     emb = {}
     for m in labels:
+        suffix = pick_arm(traces_dir, m, suffix_pref) or suffix_pref
+        print(f"{m}: arm={suffix}")
         cf = os.path.join(cache, f"{m}{suffix}.npz")
         if os.path.exists(cf):
             z = np.load(cf); emb[m] = {"train": z["train"], "test": z["test"]}; continue
@@ -98,7 +116,7 @@ def main():
     ms = json.load(open(a.models))["models"]
     base = [m["label"] for m in ms if m["role"] == "base30"]
     var = [m for m in ms if m["role"] == "variant"]
-    have = lambda l: os.path.exists(os.path.join(a.traces, f"{l}{a.think}.jsonl"))
+    have = lambda l: pick_arm(a.traces, l, a.think) is not None
     base = [b for b in base if have(b)]; var = [v for v in var if have(v["label"])]
     emb = embed_all(a.llmmap, a.pretrained or os.path.join(a.llmmap, "data/pretrained_models/default"),
                     base + [v["label"] for v in var], a.traces, a.think, a.cache, a.device)
